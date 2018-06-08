@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>编辑界面</title>
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/edit.css" rel="stylesheet">
+</head>
+<body class="noselect">
+<div id="xk-edit-body-header" class="xk-edit-nav noselect">
+    <ul class="xk-edit-nav-list">
+        <li>
+            <span data-id="101">保存全局</span>
+        </li>
+        <li>
+            <span data-id="102">导出动态条漫</span>
+        </li>
+        <li>
+            <span data-id="103">上一步</span>
+        </li>
+        <li>
+            <span data-id="104">下一步</span>
+        </li>
+        <li>
+            <span data-id="105">预览全篇</span>
+        </li>
+        <li class="xk-edit-nav-list-back">
+            <span data-id="106">
+                返回我的动态条漫
+            </span>
+        </li>
+    </ul>
+</div>
+
+<div class="xk-edit-edit">
+    <div class="xk-edit-left xk-edit-edit-style">
+        <div class="xk-edit-left-top noselect">
+            <ul id="xk-edit-anitab" data-id="200">
+                <li>
+                    <span data-id="201">移动</span>
+                    <span data-id="203">缩放</span>
+                    <span data-id="204">透明度</span>
+                </li>
+                <li>
+                    <span data-id="205">淡入</span>
+                    <span data-id="206">淡出</span>
+                </li>
+                <li>
+                    <span data-id="209">闪烁</span>
+                    <span data-id="202">旋转</span>
+                    <span data-id="208">漂浮</span>
+                    <span data-id="207">摇晃</span>
+                    <span data-id="212">逐帧</span>
+                </li>
+                <li><span>音效（仅对组件有效）</span></li>
+            </ul>
+        </div>
+
+        <div id="xk-edit-effect-edit" class="xk-edit-left-bottom">
+            <p class="xk-edit-left-bottom-title noselect">
+                <span class="xk-edit-left-bottom-nav">动效设置</span>
+                <span class="xk-edit-left-bottom-nav">音效设置</span>
+                <span class="xk-edit-left-bottom-nav hand" data-id="221">删除</span>
+            </p>
+            <div id="xk-edit-effect-panel" class="xk-edit-effect-item">
+                <ul class="xk-edit-left-bottom-body">
+
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="xk-edit-center xk-edit-edit-style">
+        <div class="xk-edit-center-top noselect">
+            <div class="xk-edit-center-top-nav">
+                <span class="hand" data-id="301">新建page</span>
+                <span class="hand" data-id="302">插入page</span>
+                <span class="hand" data-id="303">插入背景音乐（仅对page有效）</span>
+            </div>
+            <div class="float_right">
+                缩小<input type="range" value="50" data-id="304">放大
+                <span class="hand" data-id="305">预览选中的page</span>
+            </div>
+        </div>
+        <div id="xk-edit-center-edit" class="xk-edit-center-page">
+            <ul>
+                <li>
+                    <p class="noselect">
+                        <span class="float_left">page-1</span>
+                        <span class="float_right">
+                            <span class="hand" data-id="311">高度设置</span>
+                            <span class="hand" data-id="312">设置背景图</span>
+                            <span class="hand" data-id="313">删除</span>
+                        </span>
+                    </p>
+                    <div class="xk-edit-center-page-page"></div>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="xk-edit-right xk-edit-edit-style">
+        <div id="xk-edit-sub-edit" class="xk-edit-right-item">
+            <div class="xk-edit-right-nav noselect">
+                <span data-id="401" id="xk-edit-sub-edit-img" class="xk-edit-right-nav-list xk-edit-right-nav-title xk-edit-right-nav-subbox opacity-show hand">动效组件</span>
+                <span data-id="402" id="xk-edit-sub-edit-music" class="xk-edit-right-nav-list xk-edit-right-nav-title xk-edit-right-nav-subbox hand">音效组件</span>
+                <span data-id="403" class="xk-edit-right-nav-list xk-edit-right-nav-inpot hand">导入组件</span>
+                <span data-id="404" class="xk-edit-right-nav-list xk-edit-right-nav-unpot hand">删除组件</span>
+            </div>
+
+            <div id="xk-edit-sub-panel" class="xk-edit-sub-item">
+
+            </div>
+
+        </div>
+
+        <div id="xk-edit-layer-edit" class="xk-edit-right-item">
+            <div class="xk-edit-right-nav noselect">
+                <span class="xk-edit-right-nav-list xk-edit-right-nav-title hand">图层</span>
+                <span class="xk-edit-right-nav-list xk-edit-right-nav-title hand">page-1</span>
+                <span data-id="406" class="xk-edit-right-nav-list xk-edit-right-nav-del hand">删除图层</span>
+            </div>
+            <div id="xk-edit-layer-panel"  class="xk-edit-sub-item">
+                <ul>
+                    <li>
+                        <div class="xk-edit-right-top">
+                            <span data-id="421" class="xk-edit-right-label xk-edit-right-label-eyes"></span>
+                            <span data-id="422" class="xk-edit-right-label xk-edit-right-img"></span>
+                            <span data-id="423" class="xk-edit-right-label">图层名称</span>
+                            <span data-id="424" class="xk-edit-right-label xk-edit-right-label-abled"></span>
+                            <span data-id="425" class="xk-edit-right-label xk-edit-right-label-dir"></span>
+                        </div>
+                        <div class="xk-edit-right-data xk-edit-right-data-none">
+                            <p><span>W11111111111:<i>200px1111111（可修改）</i></span><span class="">H:<i>400px（可修改）</i></span></p>
+                            <p><span>X:<i>20px（可修改）</i></span><span class="">Y:<i>40px（可修改）</i></span></p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="xk-edit-right-top">
+                            <span data-id="421" class="xk-edit-right-label xk-edit-right-label-eyes"></span>
+                            <span data-id="422" class="xk-edit-right-label xk-edit-right-img"></span>
+                            <span data-id="423" class="xk-edit-right-label">图层名称</span>
+                            <span data-id="424" class="xk-edit-right-label xk-edit-right-label-abled"></span>
+                            <span data-id="425" class="xk-edit-right-label xk-edit-right-label-dir"></span>
+                        </div>
+                        <div class="xk-edit-right-data xk-edit-right-data-none">
+                            <p><span>W:<i>200px（可修改）</i></span><span class="">H:<i>400px（可修改）</i></span></p>
+                            <p><span>X:<i>20px（可修改）</i></span><span class="">Y:<i>40px（可修改）</i></span></p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="xk-edit-right-top">
+                            <span data-id="421" class="xk-edit-right-label xk-edit-right-label-eyes"></span>
+                            <span data-id="422" class="xk-edit-right-label xk-edit-right-img"></span>
+                            <span data-id="423" class="xk-edit-right-label">图层名称</span>
+                            <span data-id="424" class="xk-edit-right-label xk-edit-right-label-abled"></span>
+                            <span data-id="425" class="xk-edit-right-label xk-edit-right-label-dir"></span>
+                        </div>
+
+                        <div class="xk-edit-right-data xk-edit-right-data-none">
+                            <p><span>W:<i>200px（可修改）</i></span><span class="">H:<i>400px（可修改）</i></span></p>
+                            <p><span>X:<i>20px（可修改）</i></span><span class="">Y:<i>40px（可修改）</i></span></p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="xk-edit-footer">
+
+</div>
+<script src="js/lib/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="js/script/model.js"></script>
+<script type="text/javascript" src="js/lib/require.min.js" data-main="js/script/index.js"></script>
+</body>
+</html>

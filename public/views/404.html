@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+        真不巧，页面走丢了~~~111222
+        <input type="button" value="test" id="testBtn1">
+    </div>
+<script src="js/lib/jquery-3.1.1.min.js"></script>
+<script>
+    $('#testBtn1').click(function () {
+        $.ajax({//上传修改数据
+            type: 'post',
+            url: '/personalPage',
+            datatype: 'json',
+            data: {uuid: 'e306db67-5277-490e-a164-00539d6d7716'},
+            success: function (req) {
+                console.log(req)
+            }
+        })
+    })
+</script>
+</body>
+</html>

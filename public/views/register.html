@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name ="viewport" content="width = device-width,initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/register.css">
+    <title>regiters</title>
+</head>
+<body>
+<div class="xk-reg-nav">
+    <form action="register" method="post">
+        <p>昵称：<input type="text" name="nickname" autocomplete></p>
+        <p>密码：<input type="password" name="password" autocomplete></p>
+        <p>重复密码：<input type="password" name="checkpass" autocomplete="off"></p>
+        <p>手机：<input type="text" name="phone"  autocomplete></p>
+        <p>邮箱：<input type="email" name="email" autocomplete></p>
+        <p>职业：<select name="job">
+            <option value="学生">学生</option>
+            <option value="漫画家" selected>漫画家</option>
+            <option value="程序员">程序员</option>
+        </select></p>
+        <input type="submit" value="注册">
+    </form>
+</div>
+<script src="js/lib/jquery-3.1.1.min.js"></script>
+<script src="js/script/register.js"></script>
+</body>
+</html>
