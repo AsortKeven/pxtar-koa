@@ -1,4 +1,6 @@
 const mysql = require('mysql');
+const pinyin = require('pinyin');
+const fs = require('fs');
 const utils = {
     pool: mysql.createPool({
         host: 'localhost',
@@ -6,7 +8,7 @@ const utils = {
         password: '123456',
         database: 'pxtar'
     }),
-
+    filePath: 'G:/Pxtar/LocalGit/',
     sqls: {
         inviteNums: {
             getAll: 'select * from inviteNums',
@@ -80,6 +82,41 @@ const utils = {
             s[i] = hexDigits.substr(Math.floor(Math.random() * 62), 1);
         }
         return s.join("");
+    },
+    //更新配置文件
+    newFile: (path, name, infos) => {
+        let destination = path + '/' + name;
+        fs.writeFileSync(destination, infos, (err) => {
+            if (err)
+                return console.error(err);
+        });
+        return true;
+    },
+    //新建资源文件夹
+    newDir: (path, name) => {
+        let destination = path + '/' + name;
+        fs.exists(destination, (exist) => {
+            if (!exist) {
+                fs.mkdir(destination, (err) => {
+                    if (err)
+                        return console.error(err);
+                });
+            } else
+                return true;
+        });
+        return true;
+    },
+    //汉字转拼音
+    chToPy: (str) => {
+        let temp = pinyin(str, {
+            style: pinyin.STYLE_FIRST_LETTER,
+            heteronym: true
+        });
+        let final = '';
+        for (let i = 0; i < temp.length; i++) {
+            final += temp[i].toString();
+        }
+        return final;
     },
 };
 

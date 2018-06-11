@@ -81,7 +81,12 @@ let user = {
                 domain: 'localhost',
                 path: '/',
                 httpOnly: false
-            })
+            });
+            ctx.cookies.set('uuid', loginResult.uuid, {
+                domain: 'localhost',
+                path: '/',
+                httpOnly: false
+            });
         }
         /*
         * todo 01 登陆完成需要执行跳转 暂时测试数据如下

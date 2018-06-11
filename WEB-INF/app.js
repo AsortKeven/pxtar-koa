@@ -6,6 +6,7 @@ const path = require('path');
 const bodyParser = require('koa-bodyparser');
 const pages = require('./routes/pagesRoutes');
 const users = require('./routes/userRoutes');
+const edits = require('./routes/editRoutes');
 const app = new Koa();
 
 //设置view路径
@@ -15,7 +16,11 @@ app.use(views(path.join(curPath, 'public', 'views'), {
 }));
 
 //bodyparser解析post数据
-app.use(bodyParser());
+app.use(bodyParser({
+    formLimit:'5mb',
+    jsonLimit:'5mb',
+    textLimit:'5mb'
+}));
 
 //设置静态目录
 app.use(static(path.join(curPath, 'public', 'source')));
@@ -24,6 +29,7 @@ app.use(static(path.join(curPath, 'public', 'source')));
 let router = new Router();
 router.use('/', pages.routes(), pages.allowedMethods());
 router.use('/', users.routes(), users.allowedMethods());
+router.use('/', edits.routes(), edits.allowedMethods());
 router.get('*', async (ctx) => {
     await ctx.render('404');
 });

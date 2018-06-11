@@ -2759,7 +2759,7 @@ require(['config'], function () {
                                             datas.fileName = files.name;
                                             //todo 当前用户的uuid与当前漫画名称需要获取，暂时手动设置
                                             datas.comicName = '画诡5';
-                                            datas.uuid = 'bda67ce4-31b1-40d9-8d65-2a8cfe468956';
+                                            datas.uuid = $.cookie('uuid');
                                             console.log(datas);
                                             $.ajax({
                                                 type: 'post',
