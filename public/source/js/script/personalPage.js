@@ -137,7 +137,6 @@ $('#xk-per-modify').unbind('click').click(function () {
             }
 
             data["uuid"] = uuid;
-            // data = JSON.stringify(data)
 
 
 
