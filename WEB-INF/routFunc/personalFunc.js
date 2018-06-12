@@ -10,11 +10,18 @@ module.exports = person;
 person.ModifyNoValidate = async function (ctx,next) {
     let data = {};
     let reqData, search;
+    let sqlArr = [], sqlValue = [];
     reqData = ctx.request.body;
 
-    await console.log( ctx.request.body, JSON.stringify(ctx.request.body),222222);
+    Object.keys(reqData).forEach( k => {
+        if(k != 'uuid'){
+            sqlArr.push(k + ' = ?');
+            sqlValue.push(reqData[k]);
+        }
+    });
+    sqlValue.push(reqData.uuid);
+
     search = () => {
-        let value = [data.nickName,data.photo,data.qq,data.uuid];
         return new Promise(function (resolve,reject) {
             utils.pool.getConnection((err,connect) => {
                 if(err){
@@ -23,7 +30,7 @@ person.ModifyNoValidate = async function (ctx,next) {
                     return next(err);
                 }
 
-                connect.query(utils.modifyInfo.toNormal,value,(err,result) => {
+                connect.query('update userinfo set ' + sqlArr.join(',') + ' where uuid = ?' ,sqlValue,(err,result) => {
                     if(err){
                         console.log(err);
                         reject(err);
@@ -31,7 +38,8 @@ person.ModifyNoValidate = async function (ctx,next) {
                     }
                     connect.release();
                     console.log(result);
-
+                    resolve(result);
+                    return result;
                 })
             });
         });
@@ -39,7 +47,7 @@ person.ModifyNoValidate = async function (ctx,next) {
     }
 
 
-    // await search();
+    await search();
 
 };
 

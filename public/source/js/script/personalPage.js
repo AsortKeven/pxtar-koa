@@ -121,7 +121,7 @@ $('#xk-per-modify').unbind('click').click(function () {
             // console.log(idNickName.val(),idUserName.val(),idQQ.val(),idPhone.val(),idEmail.val());
             var data = {};
             if( nickValue != idNickName.val() ){
-                data["nick"] = idNickName.val();
+                data["nickName"] = idNickName.val();
             }
             if( userValue != idUserName.val() ){
                 data["user"] = idUserName.val();
@@ -133,7 +133,7 @@ $('#xk-per-modify').unbind('click').click(function () {
                 data["photo"] = idPhone.val();
             }
             if( emailValue != idEmail.val() ){
-                data["email"] = idEmail.val();
+                data["mails"] = idEmail.val();
             }
 
             data["uuid"] = uuid;
