@@ -7,6 +7,7 @@ const bodyParser = require('koa-bodyparser');
 const pages = require('./routes/pagesRoutes');
 const users = require('./routes/userRoutes');
 const edits = require('./routes/editRoutes');
+const person = require('./routes/personalRoutes');
 const app = new Koa();
 
 //设置view路径
@@ -30,6 +31,8 @@ let router = new Router();
 router.use('/', pages.routes(), pages.allowedMethods());
 router.use('/', users.routes(), users.allowedMethods());
 router.use('/', edits.routes(), edits.allowedMethods());
+router.use('/', person.routes(), person.allowedMethods());
+
 router.get('*', async (ctx) => {
     await ctx.render('404');
 });

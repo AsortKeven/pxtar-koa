@@ -60,6 +60,31 @@ $('#xk-per-modify').unbind('click').click(function () {
         lists += '<p>' + temp + '</p>';
     });
     xkInpur.html(lists);
+
+    // 获取各个节点信息
+    var uuid = 'b1d837e2-87ed-48e3-a6a7-0fa65d51caef';
+
+    var photoFile = $(xkform).find('input[name=file]')[0].files[0];
+    var photoInput = $(xkform).find('.img-circle')[0];
+
+    var photoDate = new FileReader();
+    // var photo = photoDate.readAsDataURL(photoInput);
+
+    var idNickName = xkInpur.find('#xk-per-nickname');
+    var idUserName = xkInpur.find('#xk-per-username');
+    var idQQ = xkInpur.find('#xk-per-QQ');
+    var idPhone = xkInpur.find('#xk-per-phone');
+    var idEmail = xkInpur.find('#xk-per-email');
+
+    var nickValue = idNickName.val();
+    var userValue = idUserName.val();
+    var qqValue = idQQ.val();
+    var phoneValue = idPhone.val();
+    var emailValue = idEmail.val();
+    // 头像目前先不处理
+
+
+
     $('#xk-per-save').css('display', 'block');
     $('.xk-per-saveGroup').unbind('click').click(function () {
         var html = '';
@@ -84,15 +109,47 @@ $('#xk-per-modify').unbind('click').click(function () {
             xkInpur.html(html);
             nodeInfos = '';
             lists = '';
-            xkimg.attr('src', formdata.objfile)
-            console.log(xkform)
+            xkimg.attr('src', formdata.objfile);
+
+            // 获取上传的文件节点
+            // idNickName = xkInpur.find('#xk-per-nickname');
+            // idUserName = xkInpur.find('#xk-per-username');
+            // idQQ = xkInpur.find('#xk-per-QQ');
+            // idPhone = xkInpur.find('#xk-per-phone');
+            // idEmail = xkInpur.find('#xk-per-email');
+            // console.log(nickValue,userValue,qqValue,phoneValue,emailValue);
+            // console.log(idNickName.val(),idUserName.val(),idQQ.val(),idPhone.val(),idEmail.val());
+            var data = {};
+            if( nickValue != idNickName.val() ){
+                data["nick"] = idNickName.val();
+            }
+            if( userValue != idUserName.val() ){
+                data["user"] = idUserName.val();
+            }
+            if( qqValue != idQQ.val() ){
+                data["qq"] = idQQ.val();
+            }
+            if( phoneValue != idPhone.val() ){
+                data["photo"] = idPhone.val();
+            }
+            if( emailValue != idEmail.val() ){
+                data["email"] = idEmail.val();
+            }
+
+            data["uuid"] = uuid;
+            // data = JSON.stringify(data)
+
+
+
+
+            console.log(data);
             $.ajax({//上传修改数据
                 type: 'post',
-                url: '/modify',
+                url: '/modifyNormal',
                 datatype: 'json',
-                data: formdata.formdata,
-                contentType: false,
-                processData: false,
+                data: data,
+                // data: {"uuid": uuid,"nick": idNickName.text(), "photo": photo, "qq": idQQ.text()},
+                // data: formdata.formdata,
                 success: function (req) {
                     console.log(req)
                 }

@@ -5,7 +5,7 @@ const utils = {
     pool: mysql.createPool({
         host: 'localhost',
         user: 'root',
-        password: '123456',
+        password: 'zeng0613',
         database: 'pxtar'
     }),
     filePath: 'G:/Pxtar/LocalGit/',
