@@ -358,4 +358,40 @@ var upFile = {//上传图片模块
         return {formdata, objfile};
     }
 };
+var winload = function () {
+    $.ajax({
+        type:'post',
+        url:'/personalPage',
+        datatype:'json',
+        data:'true',
+        success:function (data) {
+            console.log(data);
+            var html='';
+            for (var i = 0;i<data.nav.length;i++){
+                html+='<div class="xk-per-list xk-per-list-style">' +
+                    '<div class="xk-per-cartoon-box">' +
+                    '<div class="xk-cartoon-box-top xk-cartoon-item-style">' +
+                    '<p class="xk-cartoon-box-nav xk-cartoon-box-top-top">' +
+                    '<span class="xk-per-cartoon-txt xk-cartoon-box-btn xk-cartoon-box-left"><a href="##">预览</a></span>' +
+                    '<span class="xk-per-cartoon-txt xk-cartoon-box-btn xk-cartoon-box-right"><a href="##">编辑</a></span>' +
+                    '</p>' +
+                    '<p class="xk-cartoon-box-nav xk-cartoon-box-bottom">' +
+                    '<span class="xk-per-cartoon-txt xk-cartoon-box-btn xk-cartoon-box-left"><a href="##">删除</a></span>' +
+                    '</p>' +
+                    '<img class="xk-per-cartoon-img" src="' + data.nav[i].img + '">' +
+                    '</div>' +
+                    '<p class="xk-cartoon-box-center xk-cartoon-item-style">' +
+                    '<span class="xk-per-cartoon-txt xk-per-cartoon-name">' + data.nav[i].name + '</span>' +
+                    '<span class="xk-per-cartoon-txt xk-per-cartoon-number">' + data.nav[i].num + '</span>' +
+                    '</p>' +
+                    '<p class="xk-cartoon-box-bottom xk-cartoon-item-style">' +
+                    '<span class="xk-per-cartoon-txt">' + '最后:' + data.nav[i].time + '</span>' +
+                    '</p>' +
+                    '</div>' +
+                    '</div>';
+            };
+            $('.xk-per-cinter-nav').prepend(html);
+        }
+    })
+}
 

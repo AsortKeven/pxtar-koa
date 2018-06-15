@@ -194,10 +194,19 @@ a{
     display: flex;
     -webkit-align-items: center;
     align-items: center;
+    position: relative;
 }
 .xk-per-cartoon-addbtn{
-    width: 4rem;
-    height: 2rem;
+    border-radius: 50%;
+    width: 10rem;
+    height: 10rem;
+    margin:0 auto;
+    background: #f2f2f2;
+    z-index: 1;
+}
+.xk-per-cartoon-addsearch{
+    position: absolute;
+    right: 2rem;
 }
 .xk-per-list{
     position: relative;
@@ -321,6 +330,7 @@ a{
     height: 100px;
     padding: 10px;
     width: 230px;
+    z-index: 999;
 }
 .xk-per-box input[type=button]{
     padding: 5px;
@@ -347,6 +357,9 @@ a{
 
     }
     .xk-per-list-style{
+        width: 50%;
+    }
+    .xk-per-list-addbtn{
         width: 50%;
     }
 }
@@ -429,11 +442,17 @@ a{
     .xk-per-list-style{
         width: 33.333%;
     }
+    .xk-per-list-addbtn{
+        width: 33.333%;
+    }
 }
 
 @media screen and (min-width: 1200px) {
     /* 5 columns */
     .xk-per-list-style{
+        width: 25%;
+    }
+    .xk-per-list-addbtn{
         width: 25%;
     }
 }

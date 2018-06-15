@@ -15,7 +15,7 @@
         <div class="xk-per-nav-item xk-per-item-img">
             <img src="images/1.jpg" class="img-circle xk-per-item-imgstyle xk-per-item-head-pc">
             <p class="xk-per-item-typeText">
-                <span><%=datas.uuid%></span>
+                <span></span>
                 <span>合作作者</span>
             </p>
         </div>
@@ -37,12 +37,19 @@
     <div class="xk-per-content xk-per-content-style">
         <div class="xk-per-cartoon xk-per-content-box">
             <header class="xk-per-cartoon-title">
-                画诡
+                我的动态漫画
             </header>
             <div class="xk-per-cartoon-add">
-                <input class="xk-per-cartoon-addbtn" type="button" value="新建单话">
+                <!--<input class="xk-per-cartoon-addbtn" type="button" value="新建系列">-->
+                <div class="xk-per-cartoon-addsearch">
+                    <input type="text" placeholder="请输入检索关键字">
+                    <input type="button" value="搜索">
+                </div>
             </div>
             <div class="xk-per-cinter-nav">
+                <div class="xk-per-list-addbtn xk-per-list" title="新建">
+                    <div class="xk-per-cartoon-addbtn"></div>
+                </div>
                 <div class="xk-per-list xk-per-list-style">
                     <div class="xk-per-cartoon-box">
                         <div class="xk-cartoon-box-top xk-cartoon-item-style">
@@ -164,33 +171,34 @@
                         </p>
                     </div>
                 </div>
-
-                <%for(var i=0;i<datas.nav.length;i++){%>
-                <div class="xk-per-list xk-per-list-style">
-                    <div class="xk-per-cartoon-box">
-                        <div class="xk-cartoon-box-top xk-cartoon-item-style">
-                            <p class="xk-cartoon-box-nav xk-cartoon-box-top-top">
-                            <span class="xk-per-cartoon-txt xk-cartoon-box-btn xk-cartoon-box-left"><a
-                                    href="##">预览</a></span>
-                                <span class="xk-per-cartoon-txt xk-cartoon-box-btn xk-cartoon-box-right"><a
-                                        href="##">编辑</a></span>
-                            </p>
-                            <p class="xk-cartoon-box-nav xk-cartoon-box-bottom">
-                            <span class="xk-per-cartoon-txt xk-cartoon-box-btn xk-cartoon-box-left"><a
-                                    href="##">删除</a></span>
-                            </p>
-                            <img class="xk-per-cartoon-img" src=<%=datas.nav[i].img%>>
-                        </div>
-                        <p class="xk-cartoon-box-center xk-cartoon-item-style">
-                            <span class="xk-per-cartoon-txt xk-per-cartoon-name"><%=datas.nav[i].name%></span>
-                            <span class="xk-per-cartoon-txt xk-per-cartoon-number"><%=datas.nav[i].num%></span>
-                        </p>
-                        <p class="xk-cartoon-box-bottom xk-cartoon-item-style">
-                            <span class="xk-per-cartoon-txt">最后：2017-12-30 16：15：00</span>
-                        </p>
-                    </div>
-                </div>
-                <%}%>
+                <!--<%if(datas.nav){%>-->
+                <!--<%for(var i=0;i<datas.nav.length;i++){%>-->
+                <!--<div class="xk-per-list xk-per-list-style">-->
+                    <!--<div class="xk-per-cartoon-box">-->
+                        <!--<div class="xk-cartoon-box-top xk-cartoon-item-style">-->
+                            <!--<p class="xk-cartoon-box-nav xk-cartoon-box-top-top">-->
+                            <!--<span class="xk-per-cartoon-txt xk-cartoon-box-btn xk-cartoon-box-left"><a-->
+                                    <!--href="##">预览</a></span>-->
+                                <!--<span class="xk-per-cartoon-txt xk-cartoon-box-btn xk-cartoon-box-right"><a-->
+                                        <!--href="##">编辑</a></span>-->
+                            <!--</p>-->
+                            <!--<p class="xk-cartoon-box-nav xk-cartoon-box-bottom">-->
+                            <!--<span class="xk-per-cartoon-txt xk-cartoon-box-btn xk-cartoon-box-left"><a-->
+                                    <!--href="##">删除</a></span>-->
+                            <!--</p>-->
+                            <!--<img class="xk-per-cartoon-img" src=<%=datas.nav[i].img%>>-->
+                        <!--</div>-->
+                        <!--<p class="xk-cartoon-box-center xk-cartoon-item-style">-->
+                            <!--<span class="xk-per-cartoon-txt xk-per-cartoon-name"><%=datas.nav[i].name%></span>-->
+                            <!--<span class="xk-per-cartoon-txt xk-per-cartoon-number"><%=datas.nav[i].num%></span>-->
+                        <!--</p>-->
+                        <!--<p class="xk-cartoon-box-bottom xk-cartoon-item-style">-->
+                            <!--<span class="xk-per-cartoon-txt">最后：2017-12-30 16：15：00</span>-->
+                        <!--</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<%}%>-->
+                <!--<%}%>-->
             </div>
 
         </div>
@@ -263,6 +271,9 @@
             xk_nav.addClass('xk-per-nav-click');
         }
     });
+    window.onload=function () {
+        winload()
+    }
     //js中获取后台传入数据直接定义成ejs格式,暂时无法在js文件中获取ejs的值
     //除非后台不渲染页面，单纯使用res.send返回数据，由前端渲染
     var data = '<%-datas %>';
