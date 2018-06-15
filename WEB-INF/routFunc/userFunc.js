@@ -99,7 +99,6 @@ let user = {
         } else {
             ctx.body = false;
         }
-
     },
     //post请求personalPage处理函数
     personalFunc: async (ctx) => {

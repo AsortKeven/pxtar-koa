@@ -17,6 +17,8 @@ pagesRoutes.get('', async (ctx) => {
     await ctx.render('login');
 }).get('edit',async(ctx)=>{
     await ctx.render('edit')
+}).get('personalPage',async(ctx)=>{
+    await ctx.render('personalPage');
 });
 module.exports = exports = pagesRoutes;
 
