@@ -7,10 +7,12 @@
 <body>
 <div>
     真不巧，页面走丢了~~~111222
-    <input type="button" value="test" id="testBtn1">
-    <input type="button" value="saveAll" id="saveBtn">
+    <input type="button" value="个人中心" id="testBtn1">
+    <input type="button" value="全局保存" id="saveBtn">
+    <input type="button" value="token登录" id="tokenBtn">
 </div>
 <script src="js/lib/jquery-3.1.1.min.js"></script>
+<script src="js/lib/jquery.cookie.js"></script>
 <script>
     $('#testBtn1').click(function () {
         $.ajax({
@@ -32,6 +34,20 @@
                 uuid: 'bda67ce4-31b1-40d9-8d65-2a8cfe468956',
                 datas: {a: 'sadada', b: 'swwww', c: 'asdasafas'},
                 name: '画诡5'
+            },
+            success:function (res) {
+                console.log(res)
+            }
+        })
+    })
+    $('#tokenBtn').click(function () {
+        $.ajax({
+            type: 'post',
+            url: '/checkToken',
+            dataType: 'json',
+            data: {
+                uuid: $.cookie('uuid'),
+                token: $.cookie('token')
             },
             success:function (res) {
                 console.log(res)
