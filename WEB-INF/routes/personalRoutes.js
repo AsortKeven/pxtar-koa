@@ -7,18 +7,18 @@ const router = new require('koa-router')();
 const routeFunc = require('../routFunc/personalFunc');
 
 
-
-router.post('modifyNormal',async (ctx,next) => {
-    // 修改个人信息，无需验证的信息类
-    await routeFunc.ModifyNoValidate(ctx,next);
-} );
-
-router.post('modifyPhoneOrEmail', async (ctx,next) => {
-    // 需要验证的信息，如 手机，邮箱等
-    await routeFunc.ModifyValidate(ctx,next);
-})
-
-
+router
+    .post('modifyNormal', async (ctx) => {
+        // 修改个人信息，无需验证的信息类
+        await routeFunc.ModifyNoValidate(ctx);
+    })
+    .post('modifyPhoneOrEmail', async (ctx) => {
+        // 需要验证的信息，如 手机，邮箱等
+        await routeFunc.ModifyValidate(ctx);
+    })
+    .post('checkToken', async (ctx, next) => {
+        await routeFunc.checkToken(ctx, next);
+    })
 
 
 module.exports = router;

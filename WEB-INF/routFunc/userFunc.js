@@ -21,9 +21,11 @@ const loginResult = {
 * @params ctx 请求
 * */
 let user = {
+    //todo 登录逻辑需要修改，token仅用于免登陆
     loginFunc: async (ctx) => {
         let cert = fs.readFileSync('./pxtarKey.key');
         let reqDatas = ctx.request.body;
+        console.log(reqDatas);
         let [
             username,
             password,
@@ -34,49 +36,44 @@ let user = {
             reqDatas.token
         ];
         let temp, search;
-        if (reqDatas.token) {
-            console.log('token Login');
-            console.log(jwt.verify(reqDatas.token, cert));
-        } else {
-            if (utils.check(username)) {
-                let str = '%' + username + '%';
-                search = () => {
-                    return new Promise((resolve, reject) => {
-                        //所有数据库连接都应从连接池中获取，并在操作完成后释放连接
-                        utils.pool.getConnection((err, connection) => {
-                            if (err) {
+        if (utils.check(username)) {
+            let str = '%' + username + '%';
+            search = () => {
+                return new Promise((resolve, reject) => {
+                    //所有数据库连接都应从连接池中获取，并在操作完成后释放连接
+                    utils.pool.getConnection((err, connection) => {
+                        if (err) {
+                            return console.error(err);
+                        }
+                        connection.query(utils.sqls.logincheck, str, (err, result) => {
+                            if (err || !result) {
                                 return console.error(err);
+                            } else if (result.length === 0) {
+                                temp = false;
+                            } else if (password !== result[0].password) {
+                                temp = false;
+                                console.log(result);
+                            } else {
+                                console.log(result[0], password);
+                                [loginResult.loginStatus, loginResult.uuid] = [true, result[0].UUID];
+                                console.log(loginResult.loginStatus, loginResult.uuid);
+                                temp = true;
                             }
-                            connection.query(utils.sqls.logincheck, str, (err, result) => {
-                                if (err || !result) {
-                                    return console.error(err);
-                                } else if (result.length === 0) {
-                                    temp = '用户名不存在！';
-                                } else if (password !== result[0].password) {
-                                    temp = '密码错误！';
-                                    console.log(result);
-                                    console.log(temp);
-                                } else {
-                                    [loginResult.loginStatus, loginResult.uuid] = [true, result[0].UUID];
-                                    console.log(loginResult.loginStatus, loginResult.uuid);
-                                    temp = '欢迎您,' + JSON.parse(result[0].userInfos).用户名 + ',登陆成功！';
-                                }
-                                connection.release();
-                                resolve(temp);
-                            })
+                            connection.release();
+                            resolve(temp);
                         })
                     })
-                }
-            } else {
-                temp = 'illehal input';
+                })
             }
-            temp = await search();
+        } else {
+            temp = false;
+        }
+        temp = await search();
+        if (temp) {
             let newToken = jwt.sign({
-                exp: Math.floor(Date.now() / 1000 + (60 * 60 * 2)),//暂定token过期时间2小时
+                exp: Math.floor(Date.now() / 1000 + (60 * 60 * 7 * 24)),//暂定token过期时间1周
                 data: loginResult
             }, cert);
-            console.log(loginResult);
-            console.log(newToken);
             ctx.cookies.set('token', newToken, {
                 domain: 'localhost',
                 path: '/',
@@ -87,21 +84,22 @@ let user = {
                 path: '/',
                 httpOnly: false
             });
-        }
-        /*
-        * todo 01 登陆完成需要执行跳转 暂时测试数据如下
-        * */
-        let data = [{
-            name: '画诡',
-            num: '第二话',
-            img: 'data:image/png;base64'
-        }];
-        await ctx.render('personalPage', {
-            datas: {
+            /*
+            * todo 01 登陆完成需要执行跳转 暂时测试数据如下
+            * */
+            let data = [{
+                name: '画诡',
+                num: '第二话',
+                img: 'data:image/png;base64'
+            }];
+            ctx.body = {
                 uuid: 'e306db67-5277-490e-a164-00539d6d7716',
                 nav: data
-            }
-        });
+            };
+        } else {
+            ctx.body = false;
+        }
+
     },
     //post请求personalPage处理函数
     personalFunc: async (ctx) => {

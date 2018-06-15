@@ -5,7 +5,7 @@ const utils = {
     pool: mysql.createPool({
         host: 'localhost',
         user: 'root',
-        password: 'runger',
+        password: '123456',
         database: 'pxtar'
     }),
     filePath: 'G:/Pxtar/LocalGit/',
@@ -47,17 +47,17 @@ const utils = {
         } else if (userstr.match(/.*@.*/)) {
             console.log("it's email");
             return true;
-        } else if (/^1[3|4|5|8][0-9]\d{8}$/.test(userstr)) {
+        } else if (/^1[3|4|5|7|8][0-9]\d{8}$/.test(userstr)) {
             console.log("it's a phone");
             return true;
         } else return false;
     },
     //uuid生成
     uuid: () => {
-        var s = [];
-        var hexDigits = '0123456789abcdef';
+        let s = [];
+        let hexDigits = '0123456789abcdef';
 
-        for (var i = 0; i < 36; i++) {
+        for (let i = 0; i < 36; i++) {
             s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
         }
         s[14] = "4";
@@ -67,18 +67,18 @@ const utils = {
     },
     //生成用户名
     userRandom: () => {
-        var s = 'pxtar';
-        var hexDigits = '0123456789';
-        for (var i = 0; i < 6; i++) {
+        let s = 'pxtar';
+        let hexDigits = '0123456789';
+        for (let i = 0; i < 6; i++) {
             s += hexDigits.substr(Math.floor(Math.random() * 10), 1);
         }
         return s;
     },
     //生成验证码
     checkNum: () => {
-        var s = [];
-        var hexDigits = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        for (var i = 0; i < 6; i++) {
+        let s = [];
+        let hexDigits = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        for (let i = 0; i < 6; i++) {
             s[i] = hexDigits.substr(Math.floor(Math.random() * 62), 1);
         }
         return s.join("");
