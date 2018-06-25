@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <link href="css/personalCss.css" rel="stylesheet">
     <script type="text/javascript" src="js/lib/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="js/lib/jquery.cookie.js"></script>
 </head>
 <body>
 
@@ -171,34 +172,7 @@
                         </p>
                     </div>
                 </div>
-                <!--<%if(datas.nav){%>-->
-                <!--<%for(var i=0;i<datas.nav.length;i++){%>-->
-                <!--<div class="xk-per-list xk-per-list-style">-->
-                    <!--<div class="xk-per-cartoon-box">-->
-                        <!--<div class="xk-cartoon-box-top xk-cartoon-item-style">-->
-                            <!--<p class="xk-cartoon-box-nav xk-cartoon-box-top-top">-->
-                            <!--<span class="xk-per-cartoon-txt xk-cartoon-box-btn xk-cartoon-box-left"><a-->
-                                    <!--href="##">预览</a></span>-->
-                                <!--<span class="xk-per-cartoon-txt xk-cartoon-box-btn xk-cartoon-box-right"><a-->
-                                        <!--href="##">编辑</a></span>-->
-                            <!--</p>-->
-                            <!--<p class="xk-cartoon-box-nav xk-cartoon-box-bottom">-->
-                            <!--<span class="xk-per-cartoon-txt xk-cartoon-box-btn xk-cartoon-box-left"><a-->
-                                    <!--href="##">删除</a></span>-->
-                            <!--</p>-->
-                            <!--<img class="xk-per-cartoon-img" src=<%=datas.nav[i].img%>>-->
-                        <!--</div>-->
-                        <!--<p class="xk-cartoon-box-center xk-cartoon-item-style">-->
-                            <!--<span class="xk-per-cartoon-txt xk-per-cartoon-name"><%=datas.nav[i].name%></span>-->
-                            <!--<span class="xk-per-cartoon-txt xk-per-cartoon-number"><%=datas.nav[i].num%></span>-->
-                        <!--</p>-->
-                        <!--<p class="xk-cartoon-box-bottom xk-cartoon-item-style">-->
-                            <!--<span class="xk-per-cartoon-txt">最后：2017-12-30 16：15：00</span>-->
-                        <!--</p>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<%}%>-->
-                <!--<%}%>-->
+
             </div>
 
         </div>
@@ -276,8 +250,6 @@
     }
     //js中获取后台传入数据直接定义成ejs格式,暂时无法在js文件中获取ejs的值
     //除非后台不渲染页面，单纯使用res.send返回数据，由前端渲染
-    var data = '<%-datas %>';
-    console.log(data);
 </script>
 </body>
 </html>

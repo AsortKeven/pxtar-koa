@@ -14,7 +14,23 @@ $('input[type=button]').click(function () {
         password:$('input[name=password]').val(),
     };
     if(user.name && user.password){
-       $('#form').submit();
+        var data = {
+            username:user.name,
+            password:user.password,
+            token:$.cookie('token')
+        }
+        $.ajax({
+            type:'post',
+            url:'/login',
+            datatype:'json',
+            data:data,
+            success:function (res) {
+                console.log(res);
+                res = JSON.stringify(res)
+                $.cookie('data_cookie',res);
+                window.location='/personalPage';
+            }
+        })
     }else {
         if(user.name.length===0){
             $('input[name=username]').css('border','1px solid red')
