@@ -26,9 +26,13 @@ $('input[type=button]').click(function () {
             data:data,
             success:function (res) {
                 console.log(res);
-                res = JSON.stringify(res)
-                $.cookie('data_cookie',res);
-                window.location='/personalPage';
+                if(res){
+                    res = JSON.stringify(res);
+                    $.cookie('data_cookie',res);
+                    window.location='/personalPage';
+                }else {
+                    alert('密码错误！！')
+                }
             }
         })
     }else {

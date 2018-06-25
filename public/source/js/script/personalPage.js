@@ -331,7 +331,7 @@ var add_html = {
 }
 var winload = function () {
     var data=$.cookie('data_cookie'),html='';
-    data = JSON.parse(data)
+    data = JSON.parse(data);
     console.log(data);
     for (var i = 0;i<data.nav.length;i++){
             html+=add_html.addCartoon(data.nav[i])
