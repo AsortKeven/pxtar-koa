@@ -270,38 +270,50 @@ inNumber.change(function () {
 
 //鼠标悬浮到单话
 $('.xk-per-cinter-nav').on('mouseenter mouseleave', '.xk-cartoon-box-top', function (event) {
-    var _this = $(this), timer;
+    var _this = $(this);
     if (event.type == "mouseenter") {
         //鼠标悬浮
-        // timer=setTimeout(function () {
         _this.find('.xk-cartoon-box-top-top').animate({top: 0});
         _this.find('.xk-cartoon-box-bottom').animate({bottom: 0});
-        _this.find('.xk-cartoon-box-bottom .xk-cartoon-box-left').click(function () {
-            _this.parent().parent().remove();
-        });
-        // },1000)
 
     } else if (event.type == "mouseleave") {
         //鼠标离开
-        // clearTimeout(timer);
         $(this).find('.xk-cartoon-box-bottom').animate({bottom: '-1.5rem'});
         $(this).find('.xk-cartoon-box-top-top').animate({top: '-1.5rem'})
     }
 
 });
 
-//预览
-$('.xk-per-cinter-nav').on('click', '.xk-cartoon-box-top .xk-cartoon-box-top-top .xk-cartoon-box-left', function () {
-    alert('这是预览');
-    console.log($(this).text())
+//点击事件
+$('.xk-per-cinter-nav').on('click', function (e) {
+    var _this = e.target||e.srcElement;
+    var e_this = _this.innerText;
+    var This = $(this)
+    console.log(This)
+    switch (e_this){
+        case '删除':
+            _this.parentNode.parentNode.parentNode.parentNode.parentNode.remove();
+            break;
+        case '编辑':
+            alert('这是编辑')
+            break;
+        case '预览':
+            alert('这是预览');
+            break;
+        case '查看':
+            var _this_id = _this.getAttribute('data-id')
+            console.log(_this_id);
+            This.find('.xk-per-list-style').remove();
+            var data = add_html.data_cookie();
+            var html = add_html.allHtml(data)[1];
+            console.log(html);
+            This.append(html[_this_id])
+            break;
+    }
 });
-//编辑
-$('.xk-per-cinter-nav').on('click', '.xk-cartoon-box-top .xk-cartoon-box-top-top .xk-cartoon-box-right', function () {
-    alert('这是编辑')
-})
 
 var add_html = {
-    addCartoon:function (data) {
+    addCartoon:function (data) {//漫画系列内容话数
         var html = '<div class="xk-per-list xk-per-list-style">' +
             '<div class="xk-per-cartoon-box">' +
             '<div class="xk-cartoon-box-top xk-cartoon-item-style">' +
@@ -325,18 +337,53 @@ var add_html = {
             '</div>';
         return html;
     },
-    addNumber:function (data) {
-        
-    }
-}
-var winload = function () {
-    var data=$.cookie('data_cookie'),html='';
-    data = JSON.parse(data);
-    console.log(data);
-    for (var i = 0;i<data.nav.length;i++){
-            html+=add_html.addCartoon(data.nav[i])
+    addNumber:function (data) {//漫画系列
+        var html = '<div class="xk-per-list xk-per-list-style">' +
+            '<div class="xk-per-cartoon-box">' +
+            '<div class="xk-cartoon-box-top xk-cartoon-item-style">' +
+            '<p class="xk-cartoon-box-nav xk-cartoon-box-top-top">' +
+            '<span class="xk-per-cartoon-txt xk-cartoon-box-btn xk-cartoon-box-left"><a href="##" data-id="'+data.id+'">查看</a></span>' +
+            '<span class="xk-per-cartoon-txt xk-cartoon-box-btn xk-cartoon-box-right"><a href="##">编辑</a></span>' +
+            '</p>' +
+            '<p class="xk-cartoon-box-nav xk-cartoon-box-bottom">' +
+            '<span class="xk-per-cartoon-txt xk-cartoon-box-btn xk-cartoon-box-left"><a href="##">删除</a></span>' +
+            '</p>' +
+            '<img class="xk-per-cartoon-img" src="' + data.img + '">' +
+            '</div>' +
+            '<p class="xk-cartoon-box-center xk-cartoon-item-style">' +
+            '<span class="xk-per-cartoon-txt">' + data.name + '</span>' +
+            '</p>' +
+            '<p class="xk-cartoon-box-center xk-cartoon-item-style">' +
+            '<span class="xk-per-cartoon-txt">' + '最后:' + data.time + '</span>' +
+            '</p>' +
+            '</div>' +
+            '</div>';
+        return html;
+    },
+    allHtml:function (data) {//个人中心漫画和所关联的话数
+        var html='',Html = [],all_html = '';
+        for (var i = 0;i<data.nav.length;i++){
+            data.nav[i].id = i;
+            html+=add_html.addNumber(data.nav[i]);
+            var number = data.nav[i].nav
+            for (var j = 0;j<number.length;j++){
+                all_html+=add_html.addCartoon(number[j])
+            };
+            Html.push(all_html);
+            all_html = '';
         };
+        return [html,Html];
+    },
+    data_cookie:function () {//登录界面传递的cookie
+        var data=$.cookie('data_cookie');
+        data = JSON.parse(data);
+        return data
+    }
+};
+var winload = function () {
+    var data = add_html.data_cookie();
+    console.log(data);
+    html = add_html.allHtml(data)[0];
     $('.xk-per-cinter-nav').append(html);
-
-}
+};
 

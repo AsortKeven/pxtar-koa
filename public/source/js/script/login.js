@@ -11,7 +11,7 @@ $('input[type=button]').click(function () {
     $('input[name=token]').val($.cookie('token'));
     var user={
         name:$('input[name=username]').val(),
-        password:$('input[name=password]').val(),
+        password:$('input[name=password]').val()
     };
     if(user.name && user.password){
         var data = {

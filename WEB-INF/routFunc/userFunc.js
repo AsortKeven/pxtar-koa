@@ -89,9 +89,38 @@ let user = {
             * */
             let data = [{
                 name: '画诡',
-                num: '第二话',
-                img: 'data:image/png;base64'
-            }];
+                time:'2017-06-26',
+                img: 'data:image/png;base64',
+                nav:[{
+                    name: '画诡',
+                    num:'第一话',
+                    time:'2017-06-26',
+                    img: 'data:image/png;base64',
+                },
+                    {
+                        name: '画诡',
+                        num:'第二话',
+                        time:'2017-06-26',
+                        img: 'data:image/png;base64',
+                    }]
+            },
+                {
+                    name: '星动集',
+                    time:'2017-06-26',
+                    img: 'data:image/png;base64',
+                    nav:[{
+                        name: '星动集',
+                        num:'第一话',
+                        time:'2017-06-26',
+                        img: 'data:image/png;base64',
+                    },
+                        {
+                            name: '星动集',
+                            num:'第二话',
+                            time:'2017-06-26',
+                            img: 'data:image/png;base64',
+                        }]
+                }];
             ctx.body = {
                 uuid: 'e306db67-5277-490e-a164-00539d6d7716',
                 nav: data
