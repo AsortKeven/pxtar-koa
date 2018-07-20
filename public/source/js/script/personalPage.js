@@ -261,8 +261,7 @@ inNumber.change(function () {
         $('.xk-per-box-but-yes').attr('disabled', 'disabled');
     } else {
         inNumber.css('border', '1px solid #ddd');
-    }
-    ;
+    };
     if (inName.val() !== "" && inNumber.val() !== "") {
         $('.xk-per-box-but-yes').removeAttr('disabled');
     }
@@ -374,16 +373,16 @@ var add_html = {
         };
         return [html,Html];
     },
-    data_cookie:function () {//登录界面传递的cookie
-        var data=$.cookie('data_cookie');
+    data_cookie:function (name) {//登录界面传递的cookie
+        var data=$.cookie(name);
         data = JSON.parse(data);
         return data
     }
 };
 var winload = function () {
-    var data = add_html.data_cookie();
-    console.log(data);
-    html = add_html.allHtml(data)[0];
+    var data = add_html.data_cookie('data_cookie');
+    console.log($.cookie('uuid'));
+    var html = add_html.allHtml(data)[0];
     $('.xk-per-cinter-nav').append(html);
 };
 
