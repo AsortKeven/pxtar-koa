@@ -376,7 +376,7 @@ var add_html = {
     data_cookie:function (name) {//登录界面传递的cookie
         var data=$.cookie(name);
         data = JSON.parse(data);
-        return data
+        return data;
     }
 };
 var winload = function () {
