@@ -77,7 +77,7 @@ let user = {
             ctx.cookies.set('token', newToken, {
                 domain: 'localhost',
                 path: '/',
-                httpOnly: false
+                httpOnly: false 
             });
             ctx.cookies.set('uuid', loginResult.uuid, {
                 domain: 'localhost',

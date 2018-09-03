@@ -94,7 +94,6 @@ $('#xk-per-modify').unbind('click').click(function () {
             nodeInfos = '';
             lists = '';
         }
-        ;
         if (this.getAttribute('name') == 'yes') {//确定修改
             var formdata = upFile.objFile(xkform, xkfile);
             xkInpur.children().each(function () {
@@ -230,7 +229,7 @@ $('.xk-per-cartoon-addbtn').click(function () {
     box.css('display', 'block');
     inName.val("");
     inNumber.val("");
-    upload.attr('type', 'txt')
+    upload.attr('type', 'txt');
     $('.xk-per-box-but-yes').attr('disabled', 'disabled');
 });
 
@@ -238,7 +237,7 @@ $('.xk-per-box-but-no').on('click', function () {//取消新建
     box.css('display', 'none');
     inName.val("");
     inNumber.val("");
-    upload.attr('type', 'txt')
+    upload.attr('type', 'txt');
     inName.css('border', '1px solid #ddd');
     inNumber.css('border', '1px solid #ddd');
 });

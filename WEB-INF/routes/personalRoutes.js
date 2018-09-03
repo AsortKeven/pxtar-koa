@@ -21,4 +21,4 @@ router
     })
 
 
-module.exports = router;
+module.exports = exports = router;

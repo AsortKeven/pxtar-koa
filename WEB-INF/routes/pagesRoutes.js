@@ -16,7 +16,7 @@ pagesRoutes.get('', async (ctx) => {
 }).get('login', async (ctx) => {
     await ctx.render('login');
 }).get('edit',async(ctx)=>{
-    await ctx.render('edit')
+    await ctx.render('edit');
 }).get('personalPage',async(ctx)=>{
     await ctx.render('personalPage');
 });
