@@ -686,9 +686,6 @@ require(['config'], function () {
                     // 动效div
                     that.effectPanel = doc.getElementById('xk-edit-effect-edit');
                     that.effectPanelBox = doc.getElementById('xk-edit-effect-panel');
-                    that.effctTitle = doc.getElementById('xk-effect-set');
-                    that.musicPanleBox = doc.getElementById('xk-edit-music-panel');
-                    that.musicTitle = doc.getElementById('xk-music-set');
                     that.effectani = doc.getElementById('xk-edit-anitab');
 
                     // 画布侦听
@@ -734,8 +731,7 @@ require(['config'], function () {
                                                 if (element == that.page_select[j].ele) continue;
                                                 XkTool.removeClass(that.page_select[j].ele, 'box-bg-green');
                                                 that.page_select.splice(j, 1);
-                                                j--;
-                                                pageLen--;
+                                                j--, pageLen--;
                                             }
                                         }
                                     } else {
@@ -804,7 +800,6 @@ require(['config'], function () {
                     function sub_class() {
                         //组件,图层，效果层 方法
                         var duobleClick = false;
-
                         // 组件
                         function subDownEvent(e) {
                             // 组件，图层，效果层 的按下事件
@@ -908,15 +903,15 @@ require(['config'], function () {
                                     }
                                     ;
                                     break;
-                                /* case 'xk-edit-anitab':
-                                     var effect_tab = that.effectPanelBox.getElementsByClassName('xk-edit-left-bottom-body')[0];
-                                     var layer_tab_li = that.layerPanelBox.getElementsByTagName('li');
-                                     for (var i = 0; i < layer_tab_li.length; i++) {
-                                         if (XkTool.hasClass(layer_tab_li[i], 'box-bg-blue')) {
-                                             aniclick.onfor(that.effectani.getElementsByTagName('span'), effect_tab);
-                                         }
-                                     }
-                                     break;*/
+                               /* case 'xk-edit-anitab':
+                                    var effect_tab = that.effectPanelBox.getElementsByClassName('xk-edit-left-bottom-body')[0];
+                                    var layer_tab_li = that.layerPanelBox.getElementsByTagName('li');
+                                    for (var i = 0; i < layer_tab_li.length; i++) {
+                                        if (XkTool.hasClass(layer_tab_li[i], 'box-bg-blue')) {
+                                            aniclick.onfor(that.effectani.getElementsByTagName('span'), effect_tab);
+                                        }
+                                    }
+                                    break;*/
                                 case 'xk-edit-sub-panel':
                                     // 组件层
                                     // console.log(e.currentTarget.id,element,indexUl);
@@ -949,7 +944,7 @@ require(['config'], function () {
                                 liTop = Math.round(copyNodeRect.top - eleScrrollTop);
                                 liLeft = Math.round(copyNodeRect.left);
                                 liWidth = Math.round(copyNodeRect.width);
-                                liHeight = Math.round((copyNodeRect.height > 46 ? 46 : copyNodeRect.height));
+                                liHeight = Math.round((copyNodeRect.height > 46 ? 46 : copyNodeRect.height ));
                                 newLi.style.top = Math.round(copyNodeRect.top - top) + 'px';
                                 newLi.style.left = '0px';
                                 newLi.style.width = liWidth + 'px';
@@ -2186,9 +2181,8 @@ require(['config'], function () {
                         //键盘方法
                         XkTool.addEvent(doc, 'keydown', keydownEvents);
                         XkTool.addEvent(doc, 'keyup', keyupEvents);
-
                         function keydownEvents(e) {
-                            //e.preventDefault();
+                            e.preventDefault();
                             if (e.ctrlKey || e.keyCode == 17) {
                                 //按下ctrl
                                 console.log(e.keyCode, 'ctrl');
@@ -2213,7 +2207,7 @@ require(['config'], function () {
                         }
 
                         function keyupEvents(e) {
-                            //e.preventDefault();
+                            e.preventDefault();
                             that.ctrl = that.shift = that.alt = that.ctrl_shift = false;
                         }
 
@@ -2407,22 +2401,7 @@ require(['config'], function () {
                                 }
                             }
                             break;
-                        case 213:
-                            console.log(id,_Model.config[id]);
-                            break;
-                        case 220:
-                            XkTool.removeClass(that.effectPanelBox,'display-none');
-                            XkTool.addClass(that.musicPanleBox,'display-none');
-                            XkTool.removeClass(that.musicTitle,'opacity-show');
-                            XkTool.addClass(that.effctTitle,'opacity-show');
-                            break;
                         case 221:
-                            XkTool.removeClass(that.musicPanleBox,'display-none');
-                            XkTool.addClass(that.effectPanelBox,'display-none');
-                            XkTool.removeClass(that.effctTitle,'opacity-show');
-                            XkTool.addClass(that.musicTitle,'opacity-show');
-                            break;
-                        case 222:
                             console.log(id, that.effectPanelBox);
                             var _ul = that.effectPanelBox.firstElementChild
                             var _li = _ul.children;
@@ -2680,8 +2659,23 @@ require(['config'], function () {
                             console.log(id, _Model.config[id]);
 
                             break;
-                        case 311:
-                            console.log(id, _Model.config[id]);
+                        case 311://高度设置
+                            var list = ele.parentNode.parentNode.nextSibling;
+                            var div = document.createElement('div');
+                            div.innerHTML = '<input id="set-height" type="text">'+'px';
+                            var obj = {
+                                name:'高度设置',
+                                type:'node',
+                                value:div,
+                                fn:function () {
+                                    var _height = document.getElementById('set-height').value;
+                                    list.style.height = _height+'px';
+                                    document.body.removeChild(document.getElementById('alertWindow'));
+                                    document.body.removeChild(document.getElementById('opac'));
+                                }
+                            };
+                            that.v.alertWindow(obj)
+                            console.log(id, data);
 
                             break;
                         case 312:
@@ -2923,7 +2917,6 @@ require(['config'], function () {
                         }
                     };
                     e.firstElementChild.addEventListener('blur', setVal);
-
                     function setVal() {
                         e.innerHTML = document.getElementById('tempInput').value;
                         cb(e.innerHTML, ~~e.parentNode.parentNode.getAttribute('data-id'));
@@ -3332,6 +3325,7 @@ require(['config'], function () {
                         for (var j = 0; j < elm2_child.length; j++) {
                             elm2_attr.push(elm2_child[j].getAttribute('name'));
                         }
+                        ;
                         if (elm2_attr.indexOf(elm.name) == -1) {
                             li.setAttribute('name', elm.name);
                             li.innerHTML = str;
@@ -3382,7 +3376,7 @@ require(['config'], function () {
                     var obj2 = objs || null;
                     switch (obj_title) {
                         case '触发点':
-                            console.log(obj_title);
+                            console.log(obj_title)
                             XkTool.addEvent(obj, 'change', function (e) {
                                 if (obj.value === '上个动效结束后') {
                                     var ele = e.target || e.srcElement;
@@ -3394,7 +3388,7 @@ require(['config'], function () {
                                         console.log(previous_obj.value + ele_val.value)
                                     }
                                 }
-                            });
+                            })
                             break;
                         case '速度':
                             var relevant_obj = {};

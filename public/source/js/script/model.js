@@ -2186,7 +2186,7 @@ var _Model = {
                 type: 'select'
             },
             times: {
-                title: '圈数',
+                title: '次数',
                 body: function () {
                     return _Model.timesBody;
                 },
