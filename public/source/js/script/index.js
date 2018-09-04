@@ -616,14 +616,14 @@ require(['config'], function () {
                                         }
                                     });
                                 }
-                                document.onclick = function () {
+                                XkTool.addEvent(document, 'click', function () {
                                     XkTool.setStyle(rightMenuContainer, {display: 'none'});
                                     XkTool.setStyle(secondMenuContainer, {display: 'none'});
-                                };
+                                });
                             } else {
-                                document.onclick = function () {
+                                XkTool.addEvent(document, 'click', function () {
                                     XkTool.setStyle(rightMenuContainer, {display: 'none'});
-                                };
+                                });
                             }
 
                         }
@@ -2408,19 +2408,19 @@ require(['config'], function () {
                             }
                             break;
                         case 213:
-                            console.log(id,_Model.config[id]);
+                            console.log(id, _Model.config[id]);
                             break;
                         case 220:
-                            XkTool.removeClass(that.effectPanelBox,'display-none');
-                            XkTool.addClass(that.musicPanleBox,'display-none');
-                            XkTool.removeClass(that.musicTitle,'opacity-show');
-                            XkTool.addClass(that.effctTitle,'opacity-show');
+                            XkTool.removeClass(that.effectPanelBox, 'display-none');
+                            XkTool.addClass(that.musicPanleBox, 'display-none');
+                            XkTool.removeClass(that.musicTitle, 'opacity-show');
+                            XkTool.addClass(that.effctTitle, 'opacity-show');
                             break;
                         case 221:
-                            XkTool.removeClass(that.musicPanleBox,'display-none');
-                            XkTool.addClass(that.effectPanelBox,'display-none');
-                            XkTool.removeClass(that.effctTitle,'opacity-show');
-                            XkTool.addClass(that.musicTitle,'opacity-show');
+                            XkTool.removeClass(that.musicPanleBox, 'display-none');
+                            XkTool.addClass(that.effectPanelBox, 'display-none');
+                            XkTool.removeClass(that.effctTitle, 'opacity-show');
+                            XkTool.addClass(that.musicTitle, 'opacity-show');
                             break;
                         case 222:
                             console.log(id, that.effectPanelBox);
@@ -2609,7 +2609,7 @@ require(['config'], function () {
                                 back = document.querySelectorAll('.xk-insertbgm-back'),
                                 bgmList = document.querySelector('.xk-bgm-list'),
                                 submit = document.querySelector('#submit');
-                            img1.onclick = function () {
+                            XkTool.addEvent(img1, 'click', function () {
                                 console.log(_Model.musicList);
                                 XkTool.setStyle(bgmDiv, {'display': 'none'});
                                 XkTool.setStyle(selectDiv, {'display': 'block'});
@@ -2619,21 +2619,26 @@ require(['config'], function () {
                                     str += '<li>' + _Model.musicList[i].name + '</li>'
                                 }
                                 bgmList.innerHTML = str;
-                            };
-                            img2.onclick = function () {
+                            })
+                            XkTool.addEvent(img2, 'click', function () {
                                 XkTool.setStyle(bgmDiv, {'display': 'none'});
                                 XkTool.setStyle(addDiv, {'display': 'block'});
-                            };
-                            back[0].onclick = back[1].onclick = function () {
+                            })
+                            XkTool.addEvent(back[0], 'click', function () {
                                 XkTool.setStyle(bgmDiv, {'display': 'block'});
                                 XkTool.setStyle(selectDiv, {'display': 'none'});
                                 XkTool.setStyle(addDiv, {'display': 'none'});
-                            };
-                            back[2].onclick = function () {
+                            });
+                            XkTool.addEvent(back[1], 'click', function () {
+                                XkTool.setStyle(bgmDiv, {'display': 'block'});
+                                XkTool.setStyle(selectDiv, {'display': 'none'});
+                                XkTool.setStyle(addDiv, {'display': 'none'});
+                            });
+                            XkTool.addEvent(back[2], 'click', function () {
                                 XkTool.setStyle(detailDiv, {'display': 'none'});
                                 XkTool.setStyle(selectDiv, {'display': 'block'});
-                            };
-                            bgmList.onclick = function (e) {
+                            });
+                            XkTool.addEvent(bgmList, 'click', function (e) {
                                 XkTool.setStyle(selectDiv, {'display': 'none'});
                                 XkTool.setStyle(detailDiv, {'display': 'block'});
                                 document.querySelector('.bgmName span').innerHTML = e.target.innerHTML;
@@ -2645,9 +2650,9 @@ require(['config'], function () {
                                 }
                                 startPage.innerHTML = str;
                                 endPage.innerHTML = str;
-                            };
+                            });
 
-                            submit.onclick = function () {
+                            XkTool.addEvent(submit, 'click', function () {
                                 var upFile = document.querySelector('#upBgm').files[0];
                                 var reader = new FileReader();
                                 var base64Str = reader.readAsDataURL(upFile);
@@ -2672,8 +2677,7 @@ require(['config'], function () {
                                         }
                                     })
                                 };
-
-                            };
+                            });
                             //todo 111
                             break;
                         case 305:
