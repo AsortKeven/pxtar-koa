@@ -512,7 +512,6 @@ require(['config'], function () {
                     var secondMenuContainer = document.createElement('div');
                     var secondMenu = document.createElement('div');
                     var containerEnter = false;
-
                     /*XkTool.addClass(secondMenu, 'xk-right-menu');
                      XkTool.addClass(secondMenuContainer, 'xk-right-menu-container');*/
                     XkTool.addClass(rightMenu, 'xk-right-menu');
