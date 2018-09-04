@@ -2685,7 +2685,22 @@ require(['config'], function () {
 
                             break;
                         case 311:
-                            console.log(id, _Model.config[id]);
+                            var list = ele.parentNode.parentNode.nextSibling;
+                            var div = document.createElement('div');
+                            div.innerHTML = '<input id="set-height" type="text">'+'px';
+                            var obj = {
+                                name:'高度设置',
+                                type:'node',
+                                value:div,
+                                fn:function () {
+                                    var _height = document.getElementById('set-height').value;
+                                    list.style.height = _height+'px';
+                                    document.body.removeChild(document.getElementById('alertWindow'));
+                                    document.body.removeChild(document.getElementById('opac'));
+                                }
+                            };
+                            that.v.alertWindow(obj)
+                            console.log(id, data);
 
                             break;
                         case 312:
