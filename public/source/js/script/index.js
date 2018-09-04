@@ -471,13 +471,12 @@ require(['config'], function () {
                         body.removeChild(div);
                     });
 
-                    title.onmousedown = function (ev) {
-                        var oevent = ev || window.event;
+                    XkTool.addEvent(title, 'mousedown', function (e) {
+                        var oevent = e || window.event;
 
                         var distanceX = oevent.clientX - div.offsetLeft;
                         var distanceY = oevent.clientY - div.offsetTop;
-
-                        document.onmousemove = function (ev) {
+                        XkTool.addEvent(document, 'mousemove', function (ev) {
                             var oevent = ev || window.event;
                             var clientWidth = document.documentElement.clientWidth - div.offsetWidth;
                             var clientHeight = document.documentElement.clientHeight - div.offsetHeight;
@@ -498,13 +497,12 @@ require(['config'], function () {
                             }
                             div.style.left = disW + 'px';
                             div.style.top = disH + 'px';
-                        };
+                        });
                         document.onmouseup = function () {
                             document.onmousemove = null;
                             document.onmouseup = null;
                         };
-                    }
-
+                    });
                 },
                 //自定义右键菜单
                 rightMenu: function () {
@@ -632,7 +630,8 @@ require(['config'], function () {
                     }
                 }
 
-            };
+            }
+            ;
 
 
             var _Controller = function (o, v) {
@@ -2687,14 +2686,14 @@ require(['config'], function () {
                         case 311:
                             var list = ele.parentNode.parentNode.nextSibling;
                             var div = document.createElement('div');
-                            div.innerHTML = '<input id="set-height" type="text">'+'px';
+                            div.innerHTML = '<input id="set-height" type="text">' + 'px';
                             var obj = {
-                                name:'高度设置',
-                                type:'node',
-                                value:div,
-                                fn:function () {
+                                name: '高度设置',
+                                type: 'node',
+                                value: div,
+                                fn: function () {
                                     var _height = document.getElementById('set-height').value;
-                                    list.style.height = _height+'px';
+                                    list.style.height = _height + 'px';
                                     document.body.removeChild(document.getElementById('alertWindow'));
                                     document.body.removeChild(document.getElementById('opac'));
                                 }
