@@ -645,6 +645,7 @@ require(['config'], function () {
                 effectBox: {},                                      // 效果 栏 容器
                 effect_currentTarget_select: {},                    // 效果 栏 当前选择目标
                 eff_select: [],                                     // 效果 栏 选中列表
+                eff_LI:[],
                 pageBox: {},                                        // page 栏 容器
                 page_currentTarget_select: {},                      // page 栏 当前选择目标
                 page_select: [],                                    // page 栏 选中列表
@@ -891,21 +892,38 @@ require(['config'], function () {
                                     // 效果层
                                     //  console.log(e.currentTarget.id, element);
                                     var target = element;
+                                    // console.log(target);
                                     if (target.getAttribute('type') === 'range') {//组件滑动速度模块
                                         var demo_obj = target.parentNode.parentNode.parentNode.previousSibling;
                                         aniclick.Rangesider(target, demo_obj)
+                                    }else if (target.className ==='xk-frame-ul'||target.className ==='xk-edit-right-top'){
+                                        var uul = document.querySelector('.xk-frame-ul');
+                                        var ullChild = getChildes(uul);
+                                        var lli;
+                                        for (i = 0, len = ullChild.length; i < len; i++) {
+                                            if (ullChild[i].contains(target)) {
+                                                lli = ullChild[i];
+                                                eleName = lli.nodeName;
+                                                indexLi = i;
+                                                that.subBox_layer_effect_sct_index = i;
+                                                break;
+                                            }
+                                        }
+                                        aniclick.draging(uul,lli);
+                                        // dropLayer(uul, lli, that.eff_LI, function () {
+                                        //     console.log(uul);
+                                        // });
                                     } else {
                                         dropLayer(selectUl, selectLi, that.eff_select, function () {
-                                            // console.log('xk-edit-effect-panel');
+                                            // console.log(selectLi);
                                         });
-                                    }
+                                    };
                                     if (target.title) {
                                         var obj1 = target.parentNode.parentNode.parentNode.parentNode.previousSibling;
                                         var obj2;
                                         target.parentNode.parentNode.previousSibling != null ? obj2 = target.parentNode.parentNode.previousSibling.childNodes[1].firstChild : obj2 = null;
                                         aniclick.Choice(target, obj1, obj2);
-                                    }
-                                    ;
+                                    };
                                     break;
                                 /* case 'xk-edit-anitab':
                                      var effect_tab = that.effectPanelBox.getElementsByClassName('xk-edit-left-bottom-body')[0];
@@ -918,7 +936,7 @@ require(['config'], function () {
                                      break;*/
                                 case 'xk-edit-sub-panel':
                                     // 组件层
-                                    // console.log(e.currentTarget.id,element,indexUl);
+                                    console.log(e.currentTarget.id,element,indexUl);
                                     //组件当前显示的id
                                     if (!that.sub_select[indexUl]) that.sub_select[indexUl] = [];
                                     that.sub_show_id = indexUl;
@@ -928,6 +946,7 @@ require(['config'], function () {
                                     break;
                                 case 'xk-edit-layer-panel':
                                     // 图层层
+                                    console.log(that.layerPanelBox);
                                     dropLayer(selectUl, selectLi, that.layer_select, function () {
                                         console.log('xk-edit-layer-panel');
                                     });
@@ -1064,7 +1083,6 @@ require(['config'], function () {
                                 //     moveUl=null;
                                 // }
                                 callback();
-
                                 var childItem;
                                 var scrollIndex = NaN;
                                 var liLen = UlChild.length;
@@ -1074,7 +1092,7 @@ require(['config'], function () {
                                 var isBottom = false;
 
                                 // 当前 ul 的rect属性
-                                var cuUlRect = cuUl.getBoundingClientRect();
+                                // var cuUlRect = cuUl.getBoundingClientRect();
 
 
                                 moveNextIndex = indexLi;
@@ -1100,7 +1118,7 @@ require(['config'], function () {
                                     XkTool.removeEvent(window, 'mousemove', copyMove);
                                     if (!isDrop) return;
                                     isDrop = false;
-
+                                    console.log(1111)
                                     if (isMove) {
 
                                         var moveArr = [];                       //按点击目前的位置（index）来排序的数组
@@ -1301,7 +1319,7 @@ require(['config'], function () {
 
 
                                             that.class_list = [];
-                                            console.log(UlChild, selectArr, modeLayer);
+                                            // console.log(UlChild, selectArr, modeLayer);
 
                                         }
 
@@ -1323,7 +1341,6 @@ require(['config'], function () {
                                     var cuUlTop = cuUl.offsetTop, cuUlHeight = cuUl.offsetHeight;
                                     var nextRect;          //目标的 rect 属性
                                     isDrop = true;
-
 
                                     if (!isMove) {
                                         if (XkTool.getTime() - _downTime <= 150) return;
@@ -2045,6 +2062,9 @@ require(['config'], function () {
                                             typeItem();
                                         }
                                         break;
+                                    case 'xk-frame-Li':
+                                        clickItem(that.eff_LI);
+                                        break;
                                 }
 
                                 function clickItem(selectArr) {
@@ -2108,7 +2128,7 @@ require(['config'], function () {
                                             };
                                         }
                                     }
-                                    // console.log(getIndex,'返回当前节点位置',selectArr);
+                                    console.log(getIndex,'返回当前节点位置',selectArr);
 
                                     XkTool.addClass(selectLi, 'box-bg-blue');
                                     if (that.ctrl || that.shift || that.ctrl_shift) {
@@ -2252,7 +2272,7 @@ require(['config'], function () {
                             console.log(id, _Model.config[id]);
 
                             break;
-                        case 201:
+                        case 201://移动
                             console.log(id, _Model.config[id]);
                             var obj_201 = {};
                             obj_201.name = _Model.config[id].name;
@@ -2267,7 +2287,7 @@ require(['config'], function () {
                                 }
                             }
                             break;
-                        case 202:
+                        case 202://旋转
                             console.log(id, _Model.config[id]);
                             var obj_202 = {};
                             obj_202.name = _Model.config[id].name;
@@ -2282,7 +2302,7 @@ require(['config'], function () {
                                 }
                             }
                             break;
-                        case 203:
+                        case 203://缩放
                             console.log(id, _Model.config[id]);
                             var obj_203 = {};
                             obj_203.name = _Model.config[id].name;
@@ -2296,7 +2316,7 @@ require(['config'], function () {
                                 }
                             }
                             break;
-                        case 204:
+                        case 204://透明度
                             console.log(id, _Model.config[id]);
                             var obj_204 = {};
                             obj_204.name = _Model.config[id].name;
@@ -2310,7 +2330,7 @@ require(['config'], function () {
                                 }
                             }
                             break;
-                        case 205:
+                        case 205:淡入
                             console.log(id, _Model.config[id]);
                             var obj_205 = {};
                             obj_205.name = _Model.config[id].name;
@@ -2321,7 +2341,7 @@ require(['config'], function () {
                                 }
                             }
                             break;
-                        case 206:
+                        case 206:淡出
                             console.log(id, _Model.config[id]);
                             var obj_206 = {};
                             obj_206.name = _Model.config[id].name;
@@ -2332,7 +2352,7 @@ require(['config'], function () {
                                 }
                             }
                             break;
-                        case 207:
+                        case 207://摇晃
                             console.log(id, _Model.config[id]);
                             var obj_207 = {};
                             obj_207.name = _Model.config[id].name;
@@ -2358,7 +2378,7 @@ require(['config'], function () {
                                 }
                             }
                             break;
-                        case 208:
+                        case 208://漂浮
                             console.log(id, _Model.config[id]);
                             var obj_208 = {};
                             obj_208.name = _Model.config[id].name;
@@ -2376,7 +2396,7 @@ require(['config'], function () {
                                 }
                             }
                             break;
-                        case 209:
+                        case 209://闪烁
                             console.log(id, _Model.config[id]);
                             var obj_209 = {};
                             obj_209.name = _Model.config[id].name;
@@ -2386,13 +2406,12 @@ require(['config'], function () {
                                         '<div class="xk-edit-left-tab hand">次数</div>' +
                                         '<p><select title="次数"><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="无限">无限</option></select></p>' +
                                         '</li>';
-                                    ;
                                     aniclick.addLi(obj_209, effect_tab)
                                 }
                             }
                             break;
-                        case 212:
-                            console.log(id, _Model.config[id]);
+                        case 212://帧动画
+                            console.log(id);
                             var obj_212 = {};
                             obj_212.name = _Model.config[id].name;
                             for (var i = 0; i < layer_tab_li.length; i++) {
@@ -2400,11 +2419,124 @@ require(['config'], function () {
                                     obj_212.data = '<li class="clearfix1">' +
                                         '<div class="xk-edit-left-tab hand">次数</div>' +
                                         '<p><select title="次数"><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="无限">无限</option></select></p>' +
+                                        '</li>'+
+                                        '<li class="clearfix1">' +
+                                        '<div class="xk-edit-left-tab hand">帧图片</div>' +
+                                        '<input type="button" class="Upframe" value="选择图片" style="margin-right: 20px">'+
+                                        '<input type="button" class="delframe" value="删除图片">'+
+                                        '</li>'+
+                                        '<li class="clearfix1" id="xk-frame-Li">' +
+                                        '<ul class="xk-frame-ul" style="position: relative"></ul>'+
                                         '</li>';
-                                    ;
                                     aniclick.addLi(obj_212, effect_tab)
                                 }
-                            }
+                            };
+                            var frameImg = {
+                                new_list:'',
+                                list:_Model.imgList//已上传的图片
+                            };
+                            var Upframe = document.querySelector('.Upframe');
+                            XkTool.addEvent(Upframe,'click',function () {
+                                var frameDiv = document.createElement('div');
+                                var listDiv = document.createElement('div');
+                                var Updiv = document.createElement('div');
+                                var str = '';
+                                frameDiv.classList.add('xk-bgmDiv');
+                                listDiv.classList.add('xk-frame-list');
+                                frameDiv.innerHTML = '<div class="xk-frame-up"><input type="button" value="选择已有图片">'+
+                                    '<input type="button" value="上传新图片"></div>';
+                                for (var i = 0;i<frameImg.list.length;i++){//已上传的背景图显示
+                                    str+='<li xk-id="'+frameImg.list[i].id+'">'+frameImg.list[i].name+'</li>';
+                                };
+                                listDiv.innerHTML = '<p>返回</p><ul>'+str+'</ul>';
+                                Updiv.innerHTML =  '<span><返回</span><form enctype="multipart/form-data">' +
+                                    '<input type="file" id="upImg" accept="audio/*" style="width:200px;;position:relative;left:50px;top: 40px;">' +
+                                    '</form><input type="button" style="position: relative;top: 50px;" value="上传">';
+                                listDiv.style.display= 'none';
+                                Updiv.style.display= 'none';
+                                frameDiv.appendChild(listDiv);
+                                frameDiv.appendChild(Updiv);
+                                var frameObj = {
+                                    name:'帧图片',
+                                    type:'node',
+                                    value:frameDiv,
+                                    fn:function () {
+                                        //确定上传图片后保存事件
+                                        var ulList = frameUl.children;
+                                        var Ul = document.querySelector('.xk-frame-ul');
+                                        var Li = document.createElement('li');
+                                        Li.classList.add('xk');
+                                        var html = '';
+                                        if (listDiv.style.display =='block'&&Updiv.style.display == 'none'){
+                                            for (var i = 0;i<ulList.length;i++){
+                                                if (ulList[i].className == 'box-bg-blue') {
+                                                    html += '<div class="xk-edit-right-top" style="border: 1px solid">\n' +
+                                                        '<span data-id="421" class="xk-edit-right-label xk-edit-right-label-eyes"></span>\n' +
+                                                        '<span data-id="422" class="xk-edit-right-label xk-edit-right-img"></span>\n' +
+                                                        '<span data-id="423" class="xk-edit-right-label">'+frameImg.list[i].name+'</span>\n' +
+                                                        '<span data-id="424" class="xk-edit-right-label xk-edit-right-label-abled"></span>\n' +
+                                                        '<span data-id="425" class="xk-edit-right-label xk-edit-right-label-dir"></span>\n' +
+                                                        '</div>';
+                                                    Li.innerHTML = html;
+                                                    Ul.appendChild(Li);
+                                                    document.body.removeChild(document.getElementById('alertWindow'));
+                                                    document.body.removeChild(document.getElementById('opac'));
+                                                    var frameLi = document.querySelectorAll('.xk');
+                                                    var frameDel = document.querySelector('.delframe');
+                                                    XkTool.addEvent(frameDel,'click',function (e) {
+                                                        for (var j = 0;j<frameLi.length;j++){
+                                                            if (XkTool.hasClass(frameLi[j],'box-bg-blue')) {
+                                                                Ul.removeChild(frameLi[j]);
+                                                            }
+                                                        }
+                                                    });
+                                                    for (var i = 0;i<frameLi.length;i++){
+                                                        XkTool.addEvent(frameLi[i],'click',function (e) {
+                                                            var ev = this;
+                                                            var sibling = aniclick.siblings(ev);
+                                                            ev.classList.add('box-bg-blue');
+                                                            for (var i = 0;i<sibling.length;i++){
+                                                                XkTool.removeClass(sibling[i],'box-bg-blue')
+                                                            }
+                                                        });
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                };
+                                that.v.alertWindow(frameObj);
+                                var frameBut = document.querySelectorAll('.xk-frame-up input');
+                                var xkFrames = document.querySelector('.xk-frame-up');
+                                var frameRe = document.querySelector('.xk-frame-list p');
+                                var frameUl = document.querySelector('.xk-frame-list ul');
+                                var new_frame = Updiv.firstChild;
+                                XkTool.addEvent(frameBut[0],'click',function () {
+                                    XkTool.setStyle(xkFrames,{'display': 'none'});
+                                    XkTool.setStyle(listDiv,{'display': 'block'});
+                                });
+                                XkTool.addEvent(frameBut[1],'click',function () {
+                                    XkTool.setStyle(xkFrames,{'display': 'none'});
+                                    XkTool.setStyle(Updiv,{'display': 'block'});
+                                });
+                                XkTool.addEvent(new_frame,'click',function () {
+                                    XkTool.setStyle(xkFrames,{'display': 'block'});
+                                    XkTool.setStyle(Updiv,{'display': 'none'});
+                                });
+                                XkTool.addEvent(frameRe,'click',function () {
+                                    XkTool.setStyle(xkFrames,{'display': 'block'});
+                                    XkTool.setStyle(listDiv,{'display': 'none'});
+                                });
+                                XkTool.addEvent(frameUl,'click',function (e) {
+                                    var ev = e.target||e.srcElement;
+                                    var evsibling = aniclick.siblings(ev);
+                                    ev.classList.add('box-bg-blue');
+                                    for (var i = 0;i<evsibling.length;i++){
+                                        XkTool.removeClass(evsibling[i],'box-bg-blue')
+                                    }
+                                });
+                            });
+
                             break;
                         case 213:
                             console.log(id, _Model.config[id]);
@@ -2683,8 +2815,11 @@ require(['config'], function () {
                             console.log(id, _Model.config[id]);
 
                             break;
+                        //高度设置
                         case 311:
                             var list = ele.parentNode.parentNode.nextSibling;
+                            console.log(list)
+                            var ele_index = Index(list.parentNode.parentNode,list.parentNode);//page数组下标
                             var div = document.createElement('div');
                             div.innerHTML = '<input id="set-height" type="text">' + 'px';
                             var obj = {
@@ -2696,14 +2831,69 @@ require(['config'], function () {
                                     list.style.height = _height + 'px';
                                     document.body.removeChild(document.getElementById('alertWindow'));
                                     document.body.removeChild(document.getElementById('opac'));
+                                    console.log(ele_index);
+                                    _Model.page[ele_index].rect.height = _height;
                                 }
                             };
-                            that.v.alertWindow(obj)
-                            console.log(id, data);
-
+                            that.v.alertWindow(obj);
+                            console.log(id,_Model.page[ele_index]);
                             break;
-                        case 312:
-                            console.log(id, _Model.config[id]);
+                        //背景图设置
+                        case 312://背景图设置
+                            var backImg = {
+                                new_list:'',
+                                list:_Model.imgList//已上传的图片
+                            };
+                            var imgdiv = document.createElement('div');
+                            var ChoiceDiv = document.createElement('div');
+                            var UpDiv = document.createElement('div');
+                            var str = '';
+                            imgdiv.classList.add('xk-bgmDiv');
+                            imgdiv.innerHTML ='<div class="xk-img-backimg"><input type="button" value="选择已有图片">'+
+                                '<input type="button" value="上传新图片"></div>';
+                            for (var i = 0;i<backImg.list.length;i++){//已上传的背景图显示
+                                str+='<li xk-id="'+backImg.list[i].id+'">'+backImg.list[i].name+'</li>';
+                            };
+                            ChoiceDiv.classList.add('xk-img-up');
+                            ChoiceDiv.innerHTML ='<span>返回</span><ul>'+str+'</ul>';
+                            ChoiceDiv.style.display = 'none';
+                            UpDiv.classList.add('xk-img-up');
+                            UpDiv.innerHTML = '<span><返回</span><form enctype="multipart/form-data">' +
+                                '<input type="file" id="upImg" accept="audio/*" style="width:200px;;position:relative;left:50px;top: 40px;">' +
+                                '</form><input type="button" style="position: relative;top: 50px;" value="上传">';
+                            UpDiv.style.display = 'none';
+                            imgdiv.appendChild(ChoiceDiv);
+                            imgdiv.appendChild(UpDiv);
+                            var imgobj = {
+                                name:'背景图设置',
+                                type:'node',
+                                value:imgdiv,
+                                fn:function () {
+                                    //确定上传图片后保存事件
+                                }
+                            };
+                            that.v.alertWindow(imgobj);
+                            var xkback = document.querySelector('.xk-img-backimg');
+                            var xkimgUp = document.querySelector('.xk-img-up');
+                            var xkimgre = document.querySelectorAll('.xk-img-up span');
+                            var xkbutton = document.querySelectorAll('.xk-img-backimg input');
+                            XkTool.addEvent(xkbutton[0],'click',function () {
+                                XkTool.setStyle(xkback,{'display': 'none'});
+                                XkTool.setStyle(xkimgUp,{'display': 'block'});
+                            });
+                            XkTool.addEvent(xkimgre[0],'click',function () {
+                                XkTool.setStyle(xkback,{'display': 'block'});
+                                XkTool.setStyle(xkimgUp,{'display': 'none'});
+                            });
+                            XkTool.addEvent(xkbutton[1],'click',function () {
+                                XkTool.setStyle(xkback,{'display': 'none'});
+                                XkTool.setStyle(UpDiv,{'display': 'block'});
+                            });
+                            XkTool.addEvent(xkimgre[1],'click',function () {
+                                XkTool.setStyle(xkback,{'display': 'block'});
+                                XkTool.setStyle(UpDiv,{'display': 'none'});
+                            });
+                            console.log(id, _Model.imgList);
 
                             break;
                         case 313:
@@ -3021,7 +3211,7 @@ require(['config'], function () {
                     id: 11112,
                     tab: 0,
                     type: 'image',
-                    name: '草泥马',
+                    name: '草泥q',
                     src: 'images/LZS1-42-nvzhu.png',
                     size: '200kb',
                     width: '200px',
@@ -3033,7 +3223,7 @@ require(['config'], function () {
                     id: 21111,
                     tab: 1,
                     type: 'music',
-                    name: '草泥马',
+                    name: '草泥a',
                     src: '草泥马.mp3',
                     size: '200kb',
                     duration: 3,
@@ -3521,6 +3711,100 @@ require(['config'], function () {
                         '</ul>' +
                         '</div>';
                     return str;
+                },
+                getIndex : function (element) {
+                    return [].slice.call(element.parentNode.children).indexOf(element);
+                },
+                insertAfter: function(newelement,targetelement){
+                    var parentelement = targetelement.parentNode;
+                    if (parentelement.lastChild == targetelement) {
+                        parentelement.appendChild(newelement);
+                    } else {
+                        console.log(targetelement);
+                        parentelement.insertBefore(newelement,targetelement.nextSilbing);
+                    }
+                },
+                draging:function (ul, li) {
+                    var rang = {x:0,y:0};//鼠标元素偏移量
+                    var lastPos = {x:0,y:0,x1:0,y1:0};//拖动对象的四个坐标
+                    var tarPps = {x:0,y:0,x1:0,y1:0};//目标元素初始化
+                    var theLi = null, move = false, choose = false;//拖动对象， 拖动状态，选中状态
+                    var theLiId = null, theLiHeight = 0, theLiHalf = 0, tarFirstY = 0,thLiWidth = 0; //拖拽对象的索引、高度、的初始化
+                    var tarLi = null,tarFirst,tempLi;//需要插入的目标元素对象，临时的虚线对象
+                    var initPos = {x:0,y:0};
+                    li.onmousedown = function (e) {
+                        choose = true;
+                        theLi = this;
+                        //记录元素的初始位置
+                        initPos.x = theLi.offsetLeft;
+                        initPos.y = theLi.offsetTop;
+                        //鼠标元素的相对偏移量
+                        rang.x = e.pageX - theLi.offsetLeft;
+                        rang.y = e.pageY - theLi.offsetTop;
+                        theLiId = aniclick.getIndex(theLi);
+                        theLiHeight = theLi.getBoundingClientRect().height;
+                        thLiWidth = theLi.getBoundingClientRect().width;
+                        theLiHalf = theLiHeight/2;
+                        tempLi = document.createElement('li');
+                        tempLi.classList.add('xk-edit-right-top');
+                        theLi.style.position = 'absolute';
+                        theLi.className = '';
+                        XkTool.setStyle(theLi,{left: initPos.x + 'px',top: initPos.y + 'px',width: thLiWidth+'px',opacity:0.6});
+                        XkTool.setStyle(tempLi,{border:' 1px dashed #f00;'});
+                        ul.insertBefore(tempLi,theLi);
+                        document.onmousemove = function (e) {
+                            if (!choose){return false};
+                            move = true;
+                            lastPos.x = e.pageX - rang.x;
+                            lastPos.y = e.pageY - rang.y;
+                            lastPos.y1 = lastPos.y + theLiHeight;
+                            //拖动目标移动
+                            XkTool.setStyle(theLi,{left: lastPos.x + 'px',top: lastPos.y+'px'});
+                            var list_li = ul.querySelectorAll('.xk');
+                            for (var i = 0;i<list_li.length;i++){
+                                tarLi = list_li[i];
+                                tarPps.y = tarLi.offsetTop;
+                                tarPps.y1 = tarPps.y + theLiHalf;
+                                tarFirst = list_li[0];
+                                tarFirstY = tarFirst.offsetTop+theLiHalf;
+                                if (lastPos.y<=tarFirstY){
+                                    ul.insertBefore(tempLi,tarFirst);
+                                }
+                                if (lastPos.y>=tarPps.y-theLiHalf && lastPos.y<tarPps.y1){
+                                    var parentelement = list_li[i].parentNode;
+                                    if (parentelement.lastChild == list_li[i]) {
+                                        parentelement.appendChild(tempLi);
+                                    } else {
+                                        if(list_li[i+1]&&list_li[i].nextSibling !== tempLi){
+                                            console.log(lastPos.y)
+                                            parentelement.insertBefore(tempLi,list_li[i+1]);
+                                        }else{
+                                            console.log(tarPps.y-theLiHalf,tarPps.y1,i)
+                                            parentelement.insertBefore(tempLi,list_li[i]);
+                                        }
+                                    }
+                                }
+                            }
+                        };
+                        document.onmouseup = function (e) {
+                            if (!choose) {return false;}
+                            if (!move){
+                                theLi.style.position = 'static';
+                                XkTool.setStyle(theLi,{opacity:1});
+                                theLi.classList.add('xk');
+                                ul.removeChild(tempLi);
+                                choose = false;
+                                return false;
+                            };
+                            theLi.style.position = 'static';
+                            XkTool.setStyle(theLi,{opacity:1});
+                            theLi.classList.add('xk');
+                            ul.insertBefore(theLi,tempLi);
+                            ul.removeChild(tempLi);
+                            choose = false;
+                            move =false;
+                        };
+                    };
                 }
             };
             /*end*/
