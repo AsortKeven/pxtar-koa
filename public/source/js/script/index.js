@@ -910,9 +910,6 @@ require(['config'], function () {
                                             }
                                         }
                                         aniclick.draging(uul,lli);
-                                        // dropLayer(uul, lli, that.eff_LI, function () {
-                                        //     console.log(uul);
-                                        // });
                                     } else {
                                         dropLayer(selectUl, selectLi, that.eff_select, function () {
                                             // console.log(selectLi);
@@ -946,10 +943,11 @@ require(['config'], function () {
                                     break;
                                 case 'xk-edit-layer-panel':
                                     // 图层层
-                                    console.log(that.layerPanelBox);
                                     dropLayer(selectUl, selectLi, that.layer_select, function () {
                                         console.log('xk-edit-layer-panel');
                                     });
+
+
                                     break;
                             }
 
@@ -1082,7 +1080,6 @@ require(['config'], function () {
                                 //     that.headDiv.removeChild(moveUl);
                                 //     moveUl=null;
                                 // }
-                                callback();
                                 var childItem;
                                 var scrollIndex = NaN;
                                 var liLen = UlChild.length;
@@ -1451,9 +1448,8 @@ require(['config'], function () {
                                         _mx = e.pageX;
                                     }
 
-
                                 }
-
+                                callback();
                             }
 
                             function dropItem(cuUl, cuLi, selectArr, callback) {
@@ -2128,7 +2124,7 @@ require(['config'], function () {
                                             };
                                         }
                                     }
-                                    console.log(getIndex,'返回当前节点位置',selectArr);
+                                    // console.log(getIndex,'返回当前节点位置',selectArr);
 
                                     XkTool.addClass(selectLi, 'box-bg-blue');
                                     if (that.ctrl || that.shift || that.ctrl_shift) {
@@ -2247,6 +2243,10 @@ require(['config'], function () {
                     var that = this;
                     var effect_tab = that.effectPanelBox.getElementsByClassName('xk-edit-left-bottom-body')[0];
                     var layer_tab_li = that.layerPanelBox.getElementsByTagName('li');
+                    var pageIndex,page_layer_index;
+                    pageIndex = that.getPageIndex()[0];
+                    page_layer_index = that.getPageIndex()[1];
+                    console.log(pageIndex,page_layer_index);
                     switch (id) {
                         case 101:
                             console.log(id, _Model.config[id]);
@@ -2272,7 +2272,8 @@ require(['config'], function () {
                             console.log(id, _Model.config[id]);
 
                             break;
-                        case 201://移动
+                        //移动
+                        case 201:
                             console.log(id, _Model.config[id]);
                             var obj_201 = {};
                             obj_201.name = _Model.config[id].name;
@@ -2280,21 +2281,37 @@ require(['config'], function () {
                                 if (XkTool.hasClass(layer_tab_li[i], 'box-bg-blue')) {
                                     obj_201.data = '<li class="clearfix1">' +
                                         '<div class="xk-edit-left-tab hand">位置</div>' +
-                                        '<p>X: <input type="txt">' +
+                                        '<p>开始：X: <input type="txt">' +
+                                        'Y: <input type="txt"></p>' +
+                                        '<p>结束：X: <input type="txt">' +
                                         'Y: <input type="txt"></p>' +
                                         '</li>';
                                     aniclick.addLi(obj_201, effect_tab)
                                 }
-                            }
+                            };
                             break;
-                        case 202://旋转
+                        //旋转
+                        case 202:
                             console.log(id, _Model.config[id]);
                             var obj_202 = {};
                             obj_202.name = _Model.config[id].name;
                             for (var i = 0; i < layer_tab_li.length; i++) {
                                 if (XkTool.hasClass(layer_tab_li[i], 'box-bg-blue')) {
-                                    obj_202.data = '<li class="clearfix1">' +
-                                        '<div class="xk-edit-left-tab hand">旋转</div>' +
+                                    obj_202.data =
+                                        '<li class="clearfix1">' +
+                                        '<div class="xk-edit-left-tab hand">次数</div>' +
+                                        '<p><select title="次数"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="无限">无限</option></select></p>' +
+                                        '</li>'+
+                                        '<li class="clearfix1">' +
+                                        '<div class="xk-edit-left-tab hand">中心点</div>' +
+                                        '<p><select title="中心点"><option value="中心">中心</option><option value="左">左</option><option value="右">右</option><option value="上">上</option><option value="下">下</option><option value="左上">左上</option><option value="右上">右上</option><option value="左下">左下</option><option value="右下">右下</option></select></p>' +
+                                        '</li>' +
+                                        '<li class="clearfix1">' +
+                                        '<div class="xk-edit-left-tab hand">旋转速率</div>' +
+                                        '<p><span><input type="txt"></span>秒</p>' +
+                                        '</li>'+
+                                        '<li class="clearfix1">' +
+                                        '<div class="xk-edit-left-tab hand">旋转方向</div>' +
                                         '<p><span>顺时针: <input type="txt"></span>' +
                                         '<span>逆时针: <input type="txt"></span></p>' +
                                         '</li>';
@@ -2302,7 +2319,8 @@ require(['config'], function () {
                                 }
                             }
                             break;
-                        case 203://缩放
+                        //缩放
+                        case 203:
                             console.log(id, _Model.config[id]);
                             var obj_203 = {};
                             obj_203.name = _Model.config[id].name;
@@ -2310,7 +2328,7 @@ require(['config'], function () {
                                 if (XkTool.hasClass(layer_tab_li[i], 'box-bg-blue')) {
                                     obj_203.data = '<li class="clearfix1">' +
                                         '<div class="xk-edit-left-tab hand">缩放</div>' +
-                                        '<p><span>缩放: <input type="txt"></span></p>' +
+                                        '<p>缩放:<span> <input type="txt"> 到 <input type="txt"></span></p>' +
                                         '</li>';
                                     aniclick.addLi(obj_203, effect_tab)
                                 }
@@ -2330,7 +2348,8 @@ require(['config'], function () {
                                 }
                             }
                             break;
-                        case 205:淡入
+                        //淡入
+                        case 205:
                             console.log(id, _Model.config[id]);
                             var obj_205 = {};
                             obj_205.name = _Model.config[id].name;
@@ -2341,7 +2360,8 @@ require(['config'], function () {
                                 }
                             }
                             break;
-                        case 206:淡出
+                        //淡出
+                        case 206:
                             console.log(id, _Model.config[id]);
                             var obj_206 = {};
                             obj_206.name = _Model.config[id].name;
@@ -2352,7 +2372,8 @@ require(['config'], function () {
                                 }
                             }
                             break;
-                        case 207://摇晃
+                        //摇晃
+                        case 207:
                             console.log(id, _Model.config[id]);
                             var obj_207 = {};
                             obj_207.name = _Model.config[id].name;
@@ -2361,10 +2382,6 @@ require(['config'], function () {
                                     obj_207.data = '<li class="clearfix1">' +
                                         '<div class="xk-edit-left-tab hand">方向</div>' +
                                         '<p><select title="方向"><option class="hand">上下</option><option class="hand">左右</option></select></p>' +
-                                        '</li>' +
-                                        '<li class="clearfix1">' +
-                                        '<div class="xk-edit-left-tab hand">中心点</div>' +
-                                        '<p><select title="中心点"><option value="中心">中心</option><option value="左">左</option><option value="右">右</option><option value="上">上</option><option value="下">下</option><option value="左上">左上</option><option value="右上">右上</option><option value="左下">左下</option><option value="右下">右下</option></select></p>' +
                                         '</li>' +
                                         '<li class="clearfix1">' +
                                         '<div class="xk-edit-left-tab hand">强度</div>' +
@@ -2378,7 +2395,8 @@ require(['config'], function () {
                                 }
                             }
                             break;
-                        case 208://漂浮
+                        //漂浮
+                        case 208:
                             console.log(id, _Model.config[id]);
                             var obj_208 = {};
                             obj_208.name = _Model.config[id].name;
@@ -2396,7 +2414,8 @@ require(['config'], function () {
                                 }
                             }
                             break;
-                        case 209://闪烁
+                        //闪烁
+                        case 209:
                             console.log(id, _Model.config[id]);
                             var obj_209 = {};
                             obj_209.name = _Model.config[id].name;
@@ -2410,7 +2429,8 @@ require(['config'], function () {
                                 }
                             }
                             break;
-                        case 212://帧动画
+                        //帧动画
+                        case 212:
                             console.log(id);
                             var obj_212 = {};
                             obj_212.name = _Model.config[id].name;
@@ -2478,6 +2498,7 @@ require(['config'], function () {
                                                         '<span data-id="425" class="xk-edit-right-label xk-edit-right-label-dir"></span>\n' +
                                                         '</div>';
                                                     Li.innerHTML = html;
+                                                    Li.setAttribute('xk-id',frameImg.list[i].id);
                                                     Ul.appendChild(Li);
                                                     document.body.removeChild(document.getElementById('alertWindow'));
                                                     document.body.removeChild(document.getElementById('opac'));
@@ -2555,7 +2576,7 @@ require(['config'], function () {
                             break;
                         case 222:
                             console.log(id, that.effectPanelBox);
-                            var _ul = that.effectPanelBox.firstElementChild
+                            var _ul = that.effectPanelBox.firstElementChild;
                             var _li = _ul.children;
                             var li_len = _li.length;
                             console.log(_li)
@@ -2818,7 +2839,7 @@ require(['config'], function () {
                         //高度设置
                         case 311:
                             var list = ele.parentNode.parentNode.nextSibling;
-                            console.log(list)
+                            console.log(list);
                             var ele_index = Index(list.parentNode.parentNode,list.parentNode);//page数组下标
                             var div = document.createElement('div');
                             div.innerHTML = '<input id="set-height" type="text">' + 'px';
@@ -3095,7 +3116,9 @@ require(['config'], function () {
                             }
                             break;
 
-                    }
+                    };
+                    that.keepAnimation(id,_Model.page[pageIndex].layerList[page_layer_index].animal);
+                    console.log(_Model.page[pageIndex]);
                 },
                 //进度条的拖动事件
                 setProg: function (id, ele) {
@@ -3156,6 +3179,570 @@ require(['config'], function () {
                             }
                         }
                     }
+                },
+                //动效模块保存
+                keepAnimation:function (name,upobj) {
+                    var that = this,i;
+                    var effect_tab_li = that.effectPanelBox.getElementsByClassName('xk-edit-left-bottom-body')[0].children;
+                    console.log(effect_tab_li);
+                    switch (name){
+                        //移动
+                        case 201:
+                            var effect_tab_li_p, effect={};
+                            for (i = 0;i<effect_tab_li.length;i++){
+                                if(effect_tab_li[i].getAttribute('name')==='移动'){
+                                    effect_tab_li_p= effect_tab_li[i].querySelectorAll('p');
+                                    effect.range = effect_tab_li[i].querySelector('input[type=range]');
+                                }
+                            };
+                            console.log(effect_tab_li_p);
+                            effect.chufaBody = effect_tab_li_p[1].querySelector('select').value;
+                            effect.speedBody = effect_tab_li_p[2].querySelector('select').value;
+                            effect.delayBody = effect_tab_li_p[3].querySelector('select').value;
+                            effect.start = effect_tab_li_p[4].querySelectorAll('input');
+                            effect.end = effect_tab_li_p[5].querySelectorAll('input');
+                            var page_animation = {
+                                name: '移动',
+                                start: {
+                                    title: '触发点',
+                                    body: fade(effect.chufaBody,_Model.chufaBody),
+                                    type: 'select'
+                                },
+                                speed: {
+                                    title: '速度',
+                                    body:function () {
+                                        if (effect.speedBody === '自定义'){
+                                            return effect.range.value;
+                                        }else {
+                                            fade(effect.speedBody,_Model.speedBody)
+                                        }
+                                    },
+                                    type: 'select'
+                                },
+                                delay: {
+                                    title: '延迟',
+                                    body: fade(effect.delayBody,_Model.delayBody),
+                                    type: 'select'
+                                },
+                                position: {
+                                    title: '位置',
+                                    body: {
+                                            start: {x: effect.start[0].value, y: effect.start[1].value},
+                                            end: {x: effect.end[0].value, y:effect.end[1].value}
+                                        },
+                                    type: 'select'
+                                }
+                            };
+                            console.log(page_animation);
+                            upobj.push(page_animation);
+                            break;
+                        //旋转
+                        case 202:
+                            effect={};
+                            for (i = 0;i<effect_tab_li.length;i++){
+                                if(effect_tab_li[i].getAttribute('name')==='旋转'){
+                                    effect_tab_li_p= effect_tab_li[i].querySelectorAll('p');
+                                    effect.range = effect_tab_li[i].querySelector('input[type=range]');
+                                }
+                            };
+                            console.log(effect_tab_li_p);
+                            effect.chufaBody = effect_tab_li_p[1].querySelector('select').value;
+                            effect.speedBody = effect_tab_li_p[2].querySelector('select').value;
+                            effect.delayBody = effect_tab_li_p[3].querySelector('select').value;
+                            effect.timesBody = effect_tab_li_p[4].querySelector('select').value;
+                            effect.originBody = effect_tab_li_p[5].querySelector('select').value;
+                            effect.rate = effect_tab_li_p[6].querySelector('input').value;
+                            effect.rotate = effect_tab_li_p[7].querySelectorAll('input');
+                            page_animation = {
+                                name: '旋转',
+                                start: {
+                                    title: '触发点',
+                                    body: fade(effect.chufaBody,_Model.chufaBody),
+                                    type: 'select'
+                                },
+                                speed: {
+                                    title: '速度',
+                                    body:function () {
+                                        if (effect.speedBody === '自定义'){
+                                            return effect.range.value;
+                                        }else {
+                                            fade(effect.speedBody,_Model.speedBody)
+                                        }
+                                    },
+                                    type: 'select'
+                                },
+                                delay: {
+                                    title: '延迟',
+                                    body: fade(effect.delayBody,_Model.delayBody),
+                                    type: 'select'
+                                },
+                                origin: {
+                                    title: '中心点',
+                                    body: fade(effect.originBody,_Model.originBody),
+                                    type: 'select'
+                                },
+                                rotate: {
+                                    title: '旋转',
+                                    body: {
+                                        start: 0,
+                                        end: effect.rotate[0].value.replace(/(^\s*)|(\s*$)/g, '')!==''?effect.rotate[0].value:effect.rotate[1].value,
+                                        min: -360,
+                                        max: 360,
+                                        value:effect.rate,
+                                        step: fade(effect.timesBody,_Model.timesBody)
+                                    },
+                                    type: 'select'
+                                }
+                            };
+                            console.log(page_animation);
+                            upobj.push(page_animation)
+                            break;
+                        //缩放
+                        case 203:
+                            effect={};
+                            for (i = 0;i<effect_tab_li.length;i++){
+                                if(effect_tab_li[i].getAttribute('name')==='缩放'){
+                                    effect_tab_li_p= effect_tab_li[i].querySelectorAll('p');
+                                    effect.range = effect_tab_li[i].querySelector('input[type=range]');
+                                }
+                            };
+                            effect.chufaBody = effect_tab_li_p[1].querySelector('select').value;
+                            effect.speedBody = effect_tab_li_p[2].querySelector('select').value;
+                            effect.delayBody = effect_tab_li_p[3].querySelector('select').value;
+                            effect.zoom = effect_tab_li_p[4].querySelectorAll('input');
+                            page_animation = {
+                                name: '缩放',
+                                start: {
+                                    title: '触发点',
+                                    body: fade(effect.chufaBody,_Model.chufaBody),
+                                    type: 'select'
+                                },
+                                speed: {
+                                    title: '速度',
+                                    body:function () {
+                                        if (effect.speedBody === '自定义'){
+                                            return effect.range.value;
+                                        }else {
+                                            fade(effect.speedBody,_Model.speedBody)
+                                        }
+                                    },
+                                    type: 'select'
+                                },
+                                delay: {
+                                    title: '延迟',
+                                    body: fade(effect.delayBody,_Model.delayBody),
+                                    type: 'select'
+                                },
+                                scale: {
+                                    title: '缩放',
+                                    body: {
+                                            form: effect.zoom[0].value,
+                                            to:effect.zoom[1].value
+                                        },
+                                    type: 'select'
+                                }
+                            };
+                            upobj.push(page_animation)
+                            break;
+                        //透明度
+                        case 204:
+                            effect={};
+                            for (i = 0;i<effect_tab_li.length;i++){
+                                if(effect_tab_li[i].getAttribute('name')==='透明度'){
+                                    effect_tab_li_p= effect_tab_li[i].querySelectorAll('p');
+                                    effect.range = effect_tab_li[i].querySelector('input[type=range]');
+                                }
+                            };
+                            effect.chufaBody = effect_tab_li_p[1].querySelector('select').value;
+                            effect.speedBody = effect_tab_li_p[2].querySelector('select').value;
+                            effect.delayBody = effect_tab_li_p[3].querySelector('select').value;
+                            effect.opacity = effect_tab_li_p[4].querySelector('input').value;
+                            page_animation = {
+                                name: '透明度',
+                                start: {
+                                    title: '触发点',
+                                    body: fade(effect.chufaBody,_Model.chufaBody),
+                                    type: 'select'
+                                },
+                                speed: {
+                                    title: '速度',
+                                    body:function () {
+                                        if (effect.speedBody === '自定义'){
+                                            return effect.range.value;
+                                        }else {
+                                            fade(effect.speedBody,_Model.speedBody)
+                                        }
+                                    },
+                                    type: 'select'
+                                },
+                                delay: {
+                                    title: '延迟',
+                                    body: fade(effect.delayBody,_Model.delayBody),
+                                    type: 'select'
+                                },
+                                opacity: {
+                                    title: '透明度',
+                                    body: {
+                                        form: 1,
+                                        to:effect.opacity
+                                    },
+                                    type: 'select'
+                                }
+                            };
+                            console.log(page_animation);
+                            upobj.push(page_animation)
+                            break;
+                        //淡入
+                        case 205:
+                            effect={};
+                            for (i = 0;i<effect_tab_li.length;i++){
+                                if(effect_tab_li[i].getAttribute('name')==='淡入'){
+                                    effect_tab_li_p= effect_tab_li[i].querySelectorAll('p');
+                                    effect.range = effect_tab_li[i].querySelector('input[type=range]');
+                                }
+                            };
+                            effect.chufaBody = effect_tab_li_p[1].querySelector('select').value;
+                            effect.speedBody = effect_tab_li_p[2].querySelector('select').value;
+                            effect.delayBody = effect_tab_li_p[3].querySelector('select').value;
+                            page_animation = {
+                                name: '淡入',
+                                start: {
+                                    title: '触发点',
+                                    body: fade(effect.chufaBody,_Model.chufaBody),
+                                    type: 'select'
+                                },
+                                speed: {
+                                    title: '速度',
+                                    body:function () {
+                                        if (effect.speedBody === '自定义'){
+                                            return effect.range.value;
+                                        }else {
+                                            fade(effect.speedBody,_Model.speedBody)
+                                        }
+                                    },
+                                    type: 'select'
+                                },
+                                delay: {
+                                    title: '延迟',
+                                    body: fade(effect.delayBody,_Model.delayBody),
+                                    type: 'select'
+                                },
+                                fadeIn: {
+                                    title: '淡入',
+                                    body: {
+                                        form: 0,
+                                        to:1
+                                    },
+                                    type: 'select'
+                                }
+                            };
+                            console.log(page_animation);
+                            upobj.push(page_animation)
+                            break;
+                        //淡出
+                        case 206:
+                            effect={};
+                            for (i = 0;i<effect_tab_li.length;i++){
+                                if(effect_tab_li[i].getAttribute('name')==='淡出'){
+                                    effect_tab_li_p= effect_tab_li[i].querySelectorAll('p');
+                                    effect.range = effect_tab_li[i].querySelector('input[type=range]');
+                                }
+                            };
+                            effect.chufaBody = effect_tab_li_p[1].querySelector('select').value;
+                            effect.speedBody = effect_tab_li_p[2].querySelector('select').value;
+                            effect.delayBody = effect_tab_li_p[3].querySelector('select').value;
+                            page_animation = {
+                                name: '淡出',
+                                start: {
+                                    title: '触发点',
+                                    body: fade(effect.chufaBody,_Model.chufaBody),
+                                    type: 'select'
+                                },
+                                speed: {
+                                    title: '速度',
+                                    body:function () {
+                                        if (effect.speedBody === '自定义'){
+                                            return effect.range.value;
+                                        }else {
+                                            fade(effect.speedBody,_Model.speedBody)
+                                        }
+                                    },
+                                    type: 'select'
+                                },
+                                delay: {
+                                    title: '延迟',
+                                    body: fade(effect.delayBody,_Model.delayBody),
+                                    type: 'select'
+                                },
+                                fadeOut: {
+                                    title: '淡出',
+                                    body: {
+                                        form: 1,
+                                        to:0
+                                    },
+                                    type: 'select'
+                                }
+                            };
+                            console.log(page_animation);
+                            upobj.push(page_animation)
+                            break;
+                        //摇晃
+                        case 207:
+                            effect={};
+                            for (i = 0;i<effect_tab_li.length;i++){
+                                if(effect_tab_li[i].getAttribute('name')==='摇晃'){
+                                    effect_tab_li_p= effect_tab_li[i].querySelectorAll('p');
+                                    effect.range = effect_tab_li[i].querySelector('input[type=range]');
+                                }
+                            };
+                            console.log(effect_tab_li_p);
+                            effect.chufaBody = effect_tab_li_p[1].querySelector('select').value;
+                            effect.speedBody = effect_tab_li_p[2].querySelector('select').value;
+                            effect.delayBody = effect_tab_li_p[3].querySelector('select').value;
+                            effect.direction = effect_tab_li_p[4].querySelector('select').value;
+                            effect.extent = effect_tab_li_p[5].querySelector('select').value;
+                            effect.times = effect_tab_li_p[6].querySelector('select').value;
+                            page_animation = {
+                                name: '摇晃',
+                                start: {
+                                    title: '触发点',
+                                    body: fade(effect.chufaBody,_Model.chufaBody),
+                                    type: 'select'
+                                },
+                                speed: {
+                                    title: '速度',
+                                    body:function () {
+                                        if (effect.speedBody === '自定义'){
+                                            return effect.range.value;
+                                        }else {
+                                            fade(effect.speedBody,_Model.speedBody)
+                                        }
+                                    },
+                                    type: 'select'
+                                },
+                                delay: {
+                                    title: '延迟',
+                                    body: fade(effect.delayBody,_Model.delayBody),
+                                    type: 'select'
+                                },
+                                direction: {
+                                    title: '方向',
+                                    body: fade(effect.direction,_Model.directionBody),
+                                    type: 'select'
+                                },
+                                extent: {
+                                    title: '强度',
+                                    body: fade(effect.extent,_Model.extentBody),
+                                    type: 'select'
+                                },
+                                times: {
+                                    title: '次数',
+                                    body:fade(effect.times,_Model.timesBody),
+                                    type: 'select'
+                                }
+                            };
+                            console.log(page_animation);
+                            upobj.push(page_animation)
+                            break;
+                        //漂浮
+                        case 208:
+                            effect={};
+                            for (i = 0;i<effect_tab_li.length;i++){
+                                if(effect_tab_li[i].getAttribute('name')==='漂浮'){
+                                    effect_tab_li_p= effect_tab_li[i].querySelectorAll('p');
+                                    effect.range = effect_tab_li[i].querySelector('input[type=range]');
+                                }
+                            };
+                            console.log(effect_tab_li_p);
+                            effect.chufaBody = effect_tab_li_p[1].querySelector('select').value;
+                            effect.speedBody = effect_tab_li_p[2].querySelector('select').value;
+                            effect.delayBody = effect_tab_li_p[3].querySelector('select').value;
+                            effect.extent = effect_tab_li_p[4].querySelector('select').value;
+                            effect.times = effect_tab_li_p[5].querySelector('select').value;
+                            page_animation = {
+                                name: '漂浮',
+                                start: {
+                                    title: '触发点',
+                                    body: fade(effect.chufaBody,_Model.chufaBody),
+                                    type: 'select'
+                                },
+                                speed: {
+                                    title: '速度',
+                                    body:function () {
+                                        if (effect.speedBody === '自定义'){
+                                            return effect.range.value;
+                                        }else {
+                                            fade(effect.speedBody,_Model.speedBody)
+                                        }
+                                    },
+                                    type: 'select'
+                                },
+                                delay: {
+                                    title: '延迟',
+                                    body: fade(effect.delayBody,_Model.delayBody),
+                                    type: 'select'
+                                },
+                                extent: {
+                                    title: '强度',
+                                    body: fade(effect.extent,_Model.extentBody),
+                                    type: 'select'
+                                },
+                                times: {
+                                    title: '次数',
+                                    body:fade(effect.times,_Model.timesBody),
+                                    type: 'select'
+                                }
+                            };
+                            console.log(page_animation);
+                            upobj.push(page_animation)
+                            break;
+                        //闪烁
+                        case 209:
+                            effect={};
+                            for (i = 0;i<effect_tab_li.length;i++){
+                                if(effect_tab_li[i].getAttribute('name')==='闪烁'){
+                                    effect_tab_li_p= effect_tab_li[i].querySelectorAll('p');
+                                    effect.range = effect_tab_li[i].querySelector('input[type=range]');
+                                }
+                            };
+                            effect.chufaBody = effect_tab_li_p[1].querySelector('select').value;
+                            effect.speedBody = effect_tab_li_p[2].querySelector('select').value;
+                            effect.delayBody = effect_tab_li_p[3].querySelector('select').value;
+                            effect.times = effect_tab_li_p[4].querySelector('select').value;
+                            page_animation = {
+                                name: '闪烁',
+                                start: {
+                                    title: '触发点',
+                                    body: fade(effect.chufaBody,_Model.chufaBody),
+                                    type: 'select'
+                                },
+                                speed: {
+                                    title: '速度',
+                                    body:function () {
+                                        if (effect.speedBody === '自定义'){
+                                            return effect.range.value;
+                                        }else {
+                                            fade(effect.speedBody,_Model.speedBody)
+                                        }
+                                    },
+                                    type: 'select'
+                                },
+                                delay: {
+                                    title: '延迟',
+                                    body: fade(effect.delayBody,_Model.delayBody),
+                                    type: 'select'
+                                },
+                                times: {
+                                    title: '次数',
+                                    body:fade(effect.times,_Model.timesBody),
+                                    type: 'select'
+                                }
+                            };
+                            console.log(page_animation);
+                            upobj.push(page_animation)
+                            break;
+                        //帧动画
+                        case 212:
+                            effect={};
+                            for (i = 0;i<effect_tab_li.length;i++){
+                                if(effect_tab_li[i].getAttribute('name')==='帧动画'){
+                                    effect_tab_li_p= effect_tab_li[i].querySelectorAll('p');
+                                    effect.range = effect_tab_li[i].querySelector('input[type=range]');
+                                    effect.frames = effect_tab_li[i].querySelector('.xk-frame-ul').children;
+                                }
+                            };
+                            effect.framesList = [];
+                            for (i = 0;i<effect.frames.length;i++){
+                                effect.framesList.push({name:effect.frames[i].innerText,id:effect.frames[i].getAttribute('xk-id')});
+                            }
+                            effect.chufaBody = effect_tab_li_p[1].querySelector('select').value;
+                            effect.speedBody = effect_tab_li_p[2].querySelector('select').value;
+                            effect.delayBody = effect_tab_li_p[3].querySelector('select').value;
+                            effect.times = effect_tab_li_p[4].querySelector('select').value;
+                            page_animation = {
+                                name: '帧动画',
+                                start: {
+                                    title: '触发点',
+                                    body: fade(effect.chufaBody,_Model.chufaBody),
+                                    type: 'select'
+                                },
+                                speed: {
+                                    title: '速度',
+                                    body:function () {
+                                        if (effect.speedBody === '自定义'){
+                                            return effect.range.value;
+                                        }else {
+                                            fade(effect.speedBody,_Model.speedBody)
+                                        }
+                                    },
+                                    type: 'select'
+                                },
+                                delay: {
+                                    title: '延迟',
+                                    body: fade(effect.delayBody,_Model.delayBody),
+                                    type: 'select'
+                                },
+                                times: {
+                                    title: '次数',
+                                    body:fade(effect.times,_Model.timesBody),
+                                    type: 'select'
+                                },
+                                list: {
+                                    title: '帧序',
+                                    body: effect.framesList,
+                                    type: 'select'
+                                }
+                            };
+                            console.log(page_animation);
+                            upobj.push(page_animation);
+                            break;
+                    };
+                    function fade(body,bodyObj) {
+                        var i;
+                        for (i = 0;i<bodyObj.length;i++){
+                            if (body === bodyObj[i].text) {
+                                return bodyObj[i];
+                            }
+                        }
+                    }
+                    // var that = this;
+                    // var effect_tab_li = that.effectPanelBox.getElementsByClassName('xk-edit-left-bottom-body')[0].childNodes;
+                    // var layer_tab_li = that.layerPanelBox.getElementsByTagName('li');
+                    // var llli = that.pagePanel.firstElementChild.childNodes;
+                    // var i,pageIndex,page_layer_index ,j;
+                    // //判断page下标
+                    // for (i = 0;i<llli.length;i++){
+                    //     if (XkTool.hasClass(llli[i],'box-bg-green')){
+                    //         pageIndex = i;
+                    //     }
+                    // };
+                    // for(j = 0;j<layer_tab_li.length;j++){
+                    //     if (XkTool.hasClass(layer_tab_li[j],'box-bg-blue')){
+                    //         page_layer_index = j;
+                    //     }
+                    // };
+                    // console.log(pageIndex,_Model.page[pageIndex].layerList[page_layer_index]);
+                    // console.log(effect_tab_li);
+                },
+                //获取选中Page和选中的page图层index
+                getPageIndex:function () {
+                    var that = this;
+                    var layer_tab_li = that.layerPanelBox.getElementsByTagName('li');
+                    var llli = that.pagePanel.firstElementChild.childNodes;
+                    var i,pageIndex,page_layer_index ,j;
+                    //判断page下标
+                    for (i = 0;i<llli.length;i++){
+                        if (XkTool.hasClass(llli[i],'box-bg-green')){
+                            pageIndex = i;
+                        }
+                    };
+                    //判断图层下标
+                    for(j = 0;j<layer_tab_li.length;j++){
+                        if (XkTool.hasClass(layer_tab_li[j],'box-bg-blue')){
+                            page_layer_index = j;
+                        }
+                    };
+                    return [pageIndex,page_layer_index];
                 }
             };
 
@@ -3268,7 +3855,7 @@ require(['config'], function () {
                                 x: 440,
                                 y: 116
                             },
-                            animal: [1],
+                            animal: [],
                         },
                         {
                             subId: 0,
@@ -3285,7 +3872,7 @@ require(['config'], function () {
                                 x: 440,
                                 y: 116
                             },
-                            animal: [2],
+                            animal: [],
                         },
                     ],
                 };

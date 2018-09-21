@@ -1669,6 +1669,16 @@ var _Model = {
             value: 8
         }
     ],
+    directionBody:[
+        {
+            text: '上下',
+            value: 0
+        },
+        {
+            text: '左右',
+            value: 1
+        }
+    ],
     extentBody: [
         {
             text: '很弱',
@@ -1676,19 +1686,19 @@ var _Model = {
         },
         {
             text: '弱',
-            value: 0
+            value: 1
         },
         {
             text: '普通',
-            value: 0
+            value: 2
         },
         {
             text: '强',
-            value: 0
+            value: 3
         },
         {
             text: '很强',
-            value: 0
+            value: 4
         }
 
     ],
@@ -1764,6 +1774,13 @@ var _Model = {
                 title: '延迟',
                 body: function () {
                     return _Model.delayBody;
+                },
+                type: 'select'
+            },
+            origin: {
+                title: '中心点',
+                body: function () {
+                    return _Model.originBody;
                 },
                 type: 'select'
             },
@@ -1962,13 +1979,6 @@ var _Model = {
                         value: 1
                     }
                 ],
-                type: 'select'
-            },
-            origin: {
-                title: '中心点',
-                body: function () {
-                    return _Model.originBody;
-                },
                 type: 'select'
             },
             extent: {
