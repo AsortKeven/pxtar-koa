@@ -945,8 +945,62 @@ require(['config'], function () {
                                     // 图层层
                                     dropLayer(selectUl, selectLi, that.layer_select, function () {
                                         console.log('xk-edit-layer-panel');
-                                    });
+                                        var pageIndex = that.getPageIndex(),i,modeAni={},j;
+                                        that.effectPanelBox.querySelector('ul').innerHTML='';
+                                        if (pageIndex[0]!==undefined&&pageIndex[1]!==undefined){
+                                            var modelData = _Model.page[pageIndex[0]].layerList[pageIndex[1]].animal;
+                                            if (modelData.length){
+                                                for (i = 0;i<modelData.length;i++){
+                                                    var id = modelData[i].id;
+                                                    if (id === 201){
+                                                        that.setType(id,element);
+                                                        var effect_tab_li = that.effectPanelBox.getElementsByClassName('xk-edit-left-bottom-body')[0].children,effect_tab_li_p;
+                                                        for (j = 0;j<effect_tab_li.length;j++){
+                                                            if(effect_tab_li[j].getAttribute('name')==='移动'){
+                                                                effect_tab_li_p= effect_tab_li[j].querySelectorAll('p');
+                                                            }
+                                                        };
+                                                        console.log(modelData[i]);
+                                                        effect_tab_li_p[1].querySelector('select').value = modelData[i].start.body.text;
+                                                        effect_tab_li_p[2].querySelector('select').value = modelData[i].speed.body.text;
+                                                        effect_tab_li_p[3].querySelector('select').value = modelData[i].delay.body.text;
+                                                        effect_tab_li_p[4].querySelectorAll('input')[0].value = modelData[i].position.body.start.x;
+                                                        effect_tab_li_p[4].querySelectorAll('input')[1].value = modelData[i].position.body.start.y;
+                                                        effect_tab_li_p[5].querySelectorAll('input')[0].value = modelData[i].position.body.end.x;
+                                                        effect_tab_li_p[5].querySelectorAll('input')[1].value = modelData[i].position.body.end.y;
+                                                        console.log(effect_tab_li_p);
+                                                    }
+                                                    if (id === 203){
+                                                        that.setType(id,element);
+                                                    }
+                                                    if (id === 204){
+                                                        that.setType(id,element);
+                                                    }
+                                                    if (id === 205){
+                                                        that.setType(id,element);
+                                                    }
+                                                    if (id === 206){
+                                                        that.setType(id,element);
+                                                    }
+                                                    if (id === 207){
+                                                        that.setType(id,element);
+                                                    }
+                                                    if (id === 208){
+                                                        that.setType(id,element);
+                                                    }
+                                                    if (id === 209){
+                                                        that.setType(id,element);
+                                                    }
+                                                    if (id === 212){
+                                                        that.setType(id,element);
+                                                    }
+                                                }
+                                                console.log(modelData);
+                                            }
+                                        }
 
+
+                                    });
 
                                     break;
                             }
@@ -1326,11 +1380,10 @@ require(['config'], function () {
 
                                         that.headDiv.removeChild(moveUl);
                                         moveUl = null;
-
                                     }
-
                                     XkTool.removeEvent(window, 'mouseup', copyUp);
                                     XkTool.removeEvent(window, 'mousemove', copyMove);
+                                    callback();
                                 }
 
                                 function copyMove(e) {
@@ -1449,7 +1502,6 @@ require(['config'], function () {
                                     }
 
                                 }
-                                callback();
                             }
 
                             function dropItem(cuUl, cuLi, selectArr, callback) {
@@ -2241,12 +2293,11 @@ require(['config'], function () {
                 },
                 setType: function (id, ele) {
                     var that = this;
-                    var effect_tab = that.effectPanelBox.getElementsByClassName('xk-edit-left-bottom-body')[0];
-                    var layer_tab_li = that.layerPanelBox.getElementsByTagName('li');
                     var pageIndex,page_layer_index;
                     pageIndex = that.getPageIndex()[0];
                     page_layer_index = that.getPageIndex()[1];
-                    console.log(pageIndex,page_layer_index);
+                    var effect_tab = that.effectPanelBox.getElementsByClassName('xk-edit-left-bottom-body')[0];
+                    var layer_tab_li = that.layerPanelBox.getElementsByTagName('li');
                     switch (id) {
                         case 101:
                             console.log(id, _Model.config[id]);
@@ -3117,8 +3168,9 @@ require(['config'], function () {
                             break;
 
                     };
-                    that.keepAnimation(id,_Model.page[pageIndex].layerList[page_layer_index].animal);
-                    console.log(_Model.page[pageIndex]);
+                    setInterval(function () {
+                        that.keepAnimation(id,_Model.page[pageIndex].layerList[page_layer_index].animal)
+                    },10000)
                 },
                 //进度条的拖动事件
                 setProg: function (id, ele) {
@@ -3182,9 +3234,9 @@ require(['config'], function () {
                 },
                 //动效模块保存
                 keepAnimation:function (name,upobj) {
-                    var that = this,i;
+                    var that = this,i,typeobj;
                     var effect_tab_li = that.effectPanelBox.getElementsByClassName('xk-edit-left-bottom-body')[0].children;
-                    console.log(effect_tab_li);
+                    console.log(upobj);
                     switch (name){
                         //移动
                         case 201:
@@ -3203,6 +3255,7 @@ require(['config'], function () {
                             effect.end = effect_tab_li_p[5].querySelectorAll('input');
                             var page_animation = {
                                 name: '移动',
+                                id:name,
                                 start: {
                                     title: '触发点',
                                     body: fade(effect.chufaBody,_Model.chufaBody),
@@ -3233,8 +3286,12 @@ require(['config'], function () {
                                     type: 'select'
                                 }
                             };
-                            console.log(page_animation);
-                            upobj.push(page_animation);
+                            typeobj = that.judgeArr(upobj,name);
+                            if (typeof (typeobj) === "number") {
+                                upobj[typeobj] = page_animation
+                            }else {
+                                upobj.push(page_animation);
+                            };
                             break;
                         //旋转
                         case 202:
@@ -3255,6 +3312,7 @@ require(['config'], function () {
                             effect.rotate = effect_tab_li_p[7].querySelectorAll('input');
                             page_animation = {
                                 name: '旋转',
+                                id:name,
                                 start: {
                                     title: '触发点',
                                     body: fade(effect.chufaBody,_Model.chufaBody),
@@ -3294,8 +3352,12 @@ require(['config'], function () {
                                     type: 'select'
                                 }
                             };
-                            console.log(page_animation);
-                            upobj.push(page_animation)
+                            typeobj = that.judgeArr(upobj,name);
+                            if (typeof (typeobj) === "number") {
+                                upobj[typeobj] = page_animation
+                            }else {
+                                upobj.push(page_animation);
+                            };
                             break;
                         //缩放
                         case 203:
@@ -3312,6 +3374,7 @@ require(['config'], function () {
                             effect.zoom = effect_tab_li_p[4].querySelectorAll('input');
                             page_animation = {
                                 name: '缩放',
+                                id:name,
                                 start: {
                                     title: '触发点',
                                     body: fade(effect.chufaBody,_Model.chufaBody),
@@ -3342,7 +3405,12 @@ require(['config'], function () {
                                     type: 'select'
                                 }
                             };
-                            upobj.push(page_animation)
+                            typeobj = that.judgeArr(upobj,name);
+                            if (typeof (typeobj) === "number") {
+                                upobj[typeobj] = page_animation
+                            }else {
+                                upobj.push(page_animation);
+                            };
                             break;
                         //透明度
                         case 204:
@@ -3359,6 +3427,7 @@ require(['config'], function () {
                             effect.opacity = effect_tab_li_p[4].querySelector('input').value;
                             page_animation = {
                                 name: '透明度',
+                                id:name,
                                 start: {
                                     title: '触发点',
                                     body: fade(effect.chufaBody,_Model.chufaBody),
@@ -3389,8 +3458,12 @@ require(['config'], function () {
                                     type: 'select'
                                 }
                             };
-                            console.log(page_animation);
-                            upobj.push(page_animation)
+                            typeobj = that.judgeArr(upobj,name);
+                            if (typeof (typeobj) === "number") {
+                                upobj[typeobj] = page_animation
+                            }else {
+                                upobj.push(page_animation);
+                            };
                             break;
                         //淡入
                         case 205:
@@ -3406,6 +3479,7 @@ require(['config'], function () {
                             effect.delayBody = effect_tab_li_p[3].querySelector('select').value;
                             page_animation = {
                                 name: '淡入',
+                                id:name,
                                 start: {
                                     title: '触发点',
                                     body: fade(effect.chufaBody,_Model.chufaBody),
@@ -3436,8 +3510,12 @@ require(['config'], function () {
                                     type: 'select'
                                 }
                             };
-                            console.log(page_animation);
-                            upobj.push(page_animation)
+                            typeobj = that.judgeArr(upobj,name);
+                            if (typeof (typeobj) === "number") {
+                                upobj[typeobj] = page_animation
+                            }else {
+                                upobj.push(page_animation);
+                            };
                             break;
                         //淡出
                         case 206:
@@ -3453,6 +3531,7 @@ require(['config'], function () {
                             effect.delayBody = effect_tab_li_p[3].querySelector('select').value;
                             page_animation = {
                                 name: '淡出',
+                                id:name,
                                 start: {
                                     title: '触发点',
                                     body: fade(effect.chufaBody,_Model.chufaBody),
@@ -3483,8 +3562,12 @@ require(['config'], function () {
                                     type: 'select'
                                 }
                             };
-                            console.log(page_animation);
-                            upobj.push(page_animation)
+                            typeobj = that.judgeArr(upobj,name);
+                            if (typeof (typeobj) === "number") {
+                                upobj[typeobj] = page_animation
+                            }else {
+                                upobj.push(page_animation);
+                            };
                             break;
                         //摇晃
                         case 207:
@@ -3504,6 +3587,7 @@ require(['config'], function () {
                             effect.times = effect_tab_li_p[6].querySelector('select').value;
                             page_animation = {
                                 name: '摇晃',
+                                id:name,
                                 start: {
                                     title: '触发点',
                                     body: fade(effect.chufaBody,_Model.chufaBody),
@@ -3541,8 +3625,12 @@ require(['config'], function () {
                                     type: 'select'
                                 }
                             };
-                            console.log(page_animation);
-                            upobj.push(page_animation)
+                            typeobj = that.judgeArr(upobj,name);
+                            if (typeof (typeobj) === "number") {
+                                upobj[typeobj] = page_animation
+                            }else {
+                                upobj.push(page_animation);
+                            };
                             break;
                         //漂浮
                         case 208:
@@ -3561,6 +3649,7 @@ require(['config'], function () {
                             effect.times = effect_tab_li_p[5].querySelector('select').value;
                             page_animation = {
                                 name: '漂浮',
+                                id:name,
                                 start: {
                                     title: '触发点',
                                     body: fade(effect.chufaBody,_Model.chufaBody),
@@ -3593,8 +3682,12 @@ require(['config'], function () {
                                     type: 'select'
                                 }
                             };
-                            console.log(page_animation);
-                            upobj.push(page_animation)
+                            typeobj = that.judgeArr(upobj,name);
+                            if (typeof (typeobj) === "number") {
+                                upobj[typeobj] = page_animation
+                            }else {
+                                upobj.push(page_animation);
+                            };
                             break;
                         //闪烁
                         case 209:
@@ -3611,6 +3704,7 @@ require(['config'], function () {
                             effect.times = effect_tab_li_p[4].querySelector('select').value;
                             page_animation = {
                                 name: '闪烁',
+                                id:name,
                                 start: {
                                     title: '触发点',
                                     body: fade(effect.chufaBody,_Model.chufaBody),
@@ -3638,8 +3732,12 @@ require(['config'], function () {
                                     type: 'select'
                                 }
                             };
-                            console.log(page_animation);
-                            upobj.push(page_animation)
+                            typeobj = that.judgeArr(upobj,name);
+                            if (typeof (typeobj) === "number") {
+                                upobj[typeobj] = page_animation
+                            }else {
+                                upobj.push(page_animation);
+                            };
                             break;
                         //帧动画
                         case 212:
@@ -3661,6 +3759,7 @@ require(['config'], function () {
                             effect.times = effect_tab_li_p[4].querySelector('select').value;
                             page_animation = {
                                 name: '帧动画',
+                                id:name,
                                 start: {
                                     title: '触发点',
                                     body: fade(effect.chufaBody,_Model.chufaBody),
@@ -3693,8 +3792,12 @@ require(['config'], function () {
                                     type: 'select'
                                 }
                             };
-                            console.log(page_animation);
-                            upobj.push(page_animation);
+                            typeobj = that.judgeArr(upobj,name);
+                            if (typeof (typeobj) === "number") {
+                                upobj[typeobj] = page_animation
+                            }else {
+                                upobj.push(page_animation);
+                            };
                             break;
                     };
                     function fade(body,bodyObj) {
@@ -3743,6 +3846,20 @@ require(['config'], function () {
                         }
                     };
                     return [pageIndex,page_layer_index];
+                },
+                //判断数组是否含有已有的对象
+                judgeArr:function (arr,obj) {
+                    var elm2_attr = [],i;
+                    for (var j = 0; j < arr.length; j++) {
+                        elm2_attr.push(arr[j].id);
+                    };
+                    i = elm2_attr.indexOf(obj);
+                    console.log(i);
+                    if ( i == -1) {
+                        return null
+                    }else {
+                        return Number(i)
+                    }
                 }
             };
 
@@ -3855,7 +3972,33 @@ require(['config'], function () {
                                 x: 440,
                                 y: 116
                             },
-                            animal: [],
+                            animal: [{
+                                name: '移动',
+                                id:201,
+                                start: {
+                                    title: '触发点',
+                                    body: {text:'图层出现时',value:1},
+                                    type: 'select'
+                                },
+                                speed: {
+                                    title: '速度',
+                                    body:{text:'普通',value:1},
+                                    type: 'select'
+                                },
+                                delay: {
+                                    title: '延迟',
+                                    body: {text:'无',value:1},
+                                    type: 'select'
+                                },
+                                position: {
+                                    title: '位置',
+                                    body: {
+                                        start: {x: 2, y: 33},
+                                        end: {x: 22, y:222}
+                                    },
+                                    type: 'select'
+                                }
+                            }],
                         },
                         {
                             subId: 0,
@@ -3872,7 +4015,30 @@ require(['config'], function () {
                                 x: 440,
                                 y: 116
                             },
-                            animal: [],
+                            animal: [{
+                                name: '缩放',
+                                id:203,
+                                start: {
+                                    title: '触发点',
+                                    body: '',
+                                    type: 'select'
+                                },
+                                speed: {
+                                    title: '速度',
+                                    body:'',
+                                    type: 'select'
+                                },
+                                delay: {
+                                    title: '延迟',
+                                    body: '',
+                                    type: 'select'
+                                },
+                                position: {
+                                    title: '位置',
+                                    body: '',
+                                    type: 'select'
+                                }
+                            }],
                         },
                     ],
                 };
