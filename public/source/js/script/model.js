@@ -1560,23 +1560,28 @@ var _Model = {
     speedBody: [//当前page高度的百分比
         {
             text: '很慢',
-            value: 't0'//100
+            value: 't0',//100
+            txt:100
         },
         {
             text: '慢',
-            value: 't1'//80
+            value: 't1',//80
+            txt:80
         },
         {
             text: '普通',
-            value: 't2'//60
+            value: 't2',//60
+            txt:60
         },
         {
             text: '快',
-            value: 't3'//40
+            value: 't3',//40
+            txt:40
         },
         {
             text: '很快',
-            value: 't4'//20
+            value: 't4',//20
+            txt:20
         }
     ],
     delayBody: [//当前屏幕的高度延迟

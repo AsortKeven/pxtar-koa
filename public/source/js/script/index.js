@@ -691,6 +691,9 @@ require(['config'], function () {
                     that.musicTitle = doc.getElementById('xk-music-set');
                     that.effectani = doc.getElementById('xk-edit-anitab');
 
+                    //定时器
+                    that.timer;
+
                     // 画布侦听
                     var llli = that.pagePanel.firstElementChild.childNodes;
                     XkTool.addEvent(that.pagePanel.firstElementChild, 'mousedown', function (e) {
@@ -952,50 +955,263 @@ require(['config'], function () {
                                             if (modelData.length){
                                                 for (i = 0;i<modelData.length;i++){
                                                     var id = modelData[i].id;
+                                                    var effect_tab_li = that.effectPanelBox.getElementsByClassName('xk-edit-left-bottom-body')[0].children,effect_tab_li_p;
                                                     if (id === 201){
                                                         that.setType(id,element);
-                                                        var effect_tab_li = that.effectPanelBox.getElementsByClassName('xk-edit-left-bottom-body')[0].children,effect_tab_li_p;
                                                         for (j = 0;j<effect_tab_li.length;j++){
                                                             if(effect_tab_li[j].getAttribute('name')==='移动'){
                                                                 effect_tab_li_p= effect_tab_li[j].querySelectorAll('p');
+                                                                modeAni.range = effect_tab_li[j].querySelector('input[type=range]');
+                                                                modeAni.progress = effect_tab_li[j].querySelector('progress');
                                                             }
                                                         };
-                                                        console.log(modelData[i]);
                                                         effect_tab_li_p[1].querySelector('select').value = modelData[i].start.body.text;
-                                                        effect_tab_li_p[2].querySelector('select').value = modelData[i].speed.body.text;
+                                                        effect_tab_li_p[2].querySelector('select').value = modelData[i].speed.body().text;
                                                         effect_tab_li_p[3].querySelector('select').value = modelData[i].delay.body.text;
                                                         effect_tab_li_p[4].querySelectorAll('input')[0].value = modelData[i].position.body.start.x;
                                                         effect_tab_li_p[4].querySelectorAll('input')[1].value = modelData[i].position.body.start.y;
                                                         effect_tab_li_p[5].querySelectorAll('input')[0].value = modelData[i].position.body.end.x;
                                                         effect_tab_li_p[5].querySelectorAll('input')[1].value = modelData[i].position.body.end.y;
-                                                        console.log(effect_tab_li_p);
+                                                        if (modelData[i].speed.body().text === '自定义'){
+                                                            modeAni.range.value = modelData[i].speed.body().value;
+                                                            modeAni.range.style.background = 'linear-gradient(to right, #059CFA, white ' + modeAni.range.value + '%, white)';
+                                                            modeAni.progress.setAttribute('value',modelData[i].speed.body().value+(modelData[i].delay.body.value*100));
+                                                        }else {
+                                                            modeAni.progress.setAttribute('value',modelData[i].speed.body().txt+(modelData[i].delay.body.value*100));
+                                                        }
+                                                    }
+                                                    if (id === 202){
+                                                        that.setType(id,element);
+                                                        for (j = 0;j<effect_tab_li.length;j++){
+                                                            if(effect_tab_li[j].getAttribute('name')==='旋转'){
+                                                                effect_tab_li_p= effect_tab_li[j].querySelectorAll('p');
+                                                                modeAni.range = effect_tab_li[j].querySelector('input[type=range]');
+                                                                modeAni.progress = effect_tab_li[j].querySelector('progress');
+                                                            }
+                                                        };
+                                                        effect_tab_li_p[1].querySelector('select').value = modelData[i].start.body.text;
+                                                        effect_tab_li_p[2].querySelector('select').value = modelData[i].speed.body().text;
+                                                        effect_tab_li_p[3].querySelector('select').value = modelData[i].delay.body.text;
+                                                        effect_tab_li_p[4].querySelector('select').value = modelData[i].rotate.body.step.text;
+                                                        effect_tab_li_p[5].querySelector('select').value = modelData[i].origin.body.text;
+                                                        effect_tab_li_p[6].querySelector('input').value = modelData[i].rotate.body.value;
+                                                        effect_tab_li_p[7].querySelectorAll('input')[0].value = modelData[i].rotate.body.end>0?modelData[i].rotate.body.end:'';
+                                                        effect_tab_li_p[7].querySelectorAll('input')[1].value = modelData[i].rotate.body.end<0?Math.abs(modelData[i].rotate.body.end):'';
+                                                        if (modelData[i].speed.body().text === '自定义'){
+                                                            modeAni.range.value = modelData[i].speed.body().value;
+                                                            modeAni.range.style.background = 'linear-gradient(to right, #059CFA, white ' + modeAni.range.value + '%, white)';
+                                                            modeAni.progress.setAttribute('value',modelData[i].speed.body().value+(modelData[i].delay.body.value*100));
+                                                        }else {
+                                                            modeAni.progress.setAttribute('value',modelData[i].speed.body().txt+(modelData[i].delay.body.value*100));
+                                                        }
                                                     }
                                                     if (id === 203){
                                                         that.setType(id,element);
+                                                        for (j = 0;j<effect_tab_li.length;j++){
+                                                            if(effect_tab_li[j].getAttribute('name')==='缩放'){
+                                                                effect_tab_li_p= effect_tab_li[j].querySelectorAll('p');
+                                                                modeAni.range = effect_tab_li[j].querySelector('input[type=range]');
+                                                                modeAni.progress = effect_tab_li[j].querySelector('progress');
+                                                            }
+                                                        };
+                                                        effect_tab_li_p[1].querySelector('select').value = modelData[i].start.body.text;
+                                                        effect_tab_li_p[2].querySelector('select').value = modelData[i].speed.body().text;
+                                                        effect_tab_li_p[3].querySelector('select').value = modelData[i].delay.body.text;
+                                                        effect_tab_li_p[4].querySelectorAll('input')[0].value = modelData[i].scale.body.form;
+                                                        effect_tab_li_p[4].querySelectorAll('input')[1].value = modelData[i].scale.body.to;
+                                                        if (modelData[i].speed.body().text === '自定义'){
+                                                            modeAni.range.value = modelData[i].speed.body().value;
+                                                            modeAni.range.style.background = 'linear-gradient(to right, #059CFA, white ' + modeAni.range.value + '%, white)';
+                                                            modeAni.progress.setAttribute('value',modelData[i].speed.body().value+(modelData[i].delay.body.value*100));
+                                                        }else {
+                                                            modeAni.progress.setAttribute('value',modelData[i].speed.body().txt+(modelData[i].delay.body.value*100));
+                                                        }
                                                     }
                                                     if (id === 204){
                                                         that.setType(id,element);
+                                                        for (j = 0;j<effect_tab_li.length;j++){
+                                                            if(effect_tab_li[j].getAttribute('name')==='透明度'){
+                                                                effect_tab_li_p= effect_tab_li[j].querySelectorAll('p');
+                                                                modeAni.range = effect_tab_li[j].querySelector('input[type=range]');
+                                                                modeAni.progress = effect_tab_li[j].querySelector('progress');
+                                                            }
+                                                        };
+                                                        effect_tab_li_p[1].querySelector('select').value = modelData[i].start.body.text;
+                                                        effect_tab_li_p[2].querySelector('select').value = modelData[i].speed.body().text;
+                                                        effect_tab_li_p[3].querySelector('select').value = modelData[i].delay.body.text;
+                                                        effect_tab_li_p[4].querySelector('input').value = modelData[i].scale.body.to;
+                                                        if (modelData[i].speed.body().text === '自定义'){
+                                                            modeAni.range.value = modelData[i].speed.body().value;
+                                                            modeAni.range.style.background = 'linear-gradient(to right, #059CFA, white ' + modeAni.range.value + '%, white)';
+                                                            modeAni.progress.setAttribute('value',modelData[i].speed.body().value+(modelData[i].delay.body.value*100));
+                                                        }else {
+                                                            modeAni.progress.setAttribute('value',modelData[i].speed.body().txt+(modelData[i].delay.body.value*100));
+                                                        }
                                                     }
                                                     if (id === 205){
                                                         that.setType(id,element);
+                                                        for (j = 0;j<effect_tab_li.length;j++){
+                                                            if(effect_tab_li[j].getAttribute('name')==='淡入'){
+                                                                effect_tab_li_p= effect_tab_li[j].querySelectorAll('p');
+                                                                modeAni.range = effect_tab_li[j].querySelector('input[type=range]');
+                                                                modeAni.progress = effect_tab_li[j].querySelector('progress');
+                                                            }
+                                                        };
+                                                        effect_tab_li_p[1].querySelector('select').value = modelData[i].start.body.text;
+                                                        effect_tab_li_p[2].querySelector('select').value = modelData[i].speed.body().text;
+                                                        effect_tab_li_p[3].querySelector('select').value = modelData[i].delay.body.text;
+                                                        if (modelData[i].speed.body().text === '自定义'){
+                                                            modeAni.range.value = modelData[i].speed.body().value;
+                                                            modeAni.range.style.background = 'linear-gradient(to right, #059CFA, white ' + modeAni.range.value + '%, white)';
+                                                            modeAni.progress.setAttribute('value',modelData[i].speed.body().value+(modelData[i].delay.body.value*100));
+                                                        }else {
+                                                            modeAni.progress.setAttribute('value',modelData[i].speed.body().txt+(modelData[i].delay.body.value*100));
+                                                        }
                                                     }
                                                     if (id === 206){
                                                         that.setType(id,element);
+                                                        for (j = 0;j<effect_tab_li.length;j++){
+                                                            if(effect_tab_li[j].getAttribute('name')==='淡出'){
+                                                                effect_tab_li_p= effect_tab_li[j].querySelectorAll('p');
+                                                                modeAni.range = effect_tab_li[j].querySelector('input[type=range]');
+                                                                modeAni.progress = effect_tab_li[j].querySelector('progress');
+                                                            }
+                                                        };
+                                                        effect_tab_li_p[1].querySelector('select').value = modelData[i].start.body.text;
+                                                        effect_tab_li_p[2].querySelector('select').value = modelData[i].speed.body().text;
+                                                        effect_tab_li_p[3].querySelector('select').value = modelData[i].delay.body.text;
+                                                        if (modelData[i].speed.body().text === '自定义'){
+                                                            modeAni.range.value = modelData[i].speed.body().value;
+                                                            modeAni.range.style.background = 'linear-gradient(to right, #059CFA, white ' + modeAni.range.value + '%, white)';
+                                                            modeAni.progress.setAttribute('value',modelData[i].speed.body().value+(modelData[i].delay.body.value*100));
+                                                        }else {
+                                                            modeAni.progress.setAttribute('value',modelData[i].speed.body().txt+(modelData[i].delay.body.value*100));
+                                                        }
                                                     }
                                                     if (id === 207){
                                                         that.setType(id,element);
+                                                        for (j = 0;j<effect_tab_li.length;j++){
+                                                            if(effect_tab_li[j].getAttribute('name')==='摇晃'){
+                                                                effect_tab_li_p= effect_tab_li[j].querySelectorAll('p');
+                                                                modeAni.range = effect_tab_li[j].querySelector('input[type=range]');
+                                                                modeAni.progress = effect_tab_li[j].querySelector('progress');
+                                                            }
+                                                        };
+                                                        effect_tab_li_p[1].querySelector('select').value = modelData[i].start.body.text;
+                                                        effect_tab_li_p[2].querySelector('select').value = modelData[i].speed.body().text;
+                                                        effect_tab_li_p[3].querySelector('select').value = modelData[i].delay.body.text;
+                                                        effect_tab_li_p[4].querySelector('select').value = modelData[i].direction.body.text;
+                                                        effect_tab_li_p[5].querySelector('select').value = modelData[i].extent.body.text;
+                                                        effect_tab_li_p[6].querySelector('select').value = modelData[i].times.body.text;
+                                                        if (modelData[i].speed.body().text === '自定义'){
+                                                            modeAni.range.value = modelData[i].speed.body().value;
+                                                            modeAni.range.style.background = 'linear-gradient(to right, #059CFA, white ' + modeAni.range.value + '%, white)';
+                                                            modeAni.progress.setAttribute('value',modelData[i].speed.body().value+(modelData[i].delay.body.value*100));
+                                                        }else {
+                                                            modeAni.progress.setAttribute('value',modelData[i].speed.body().txt+(modelData[i].delay.body.value*100));
+                                                        }
                                                     }
                                                     if (id === 208){
                                                         that.setType(id,element);
+                                                        for (j = 0;j<effect_tab_li.length;j++){
+                                                            if(effect_tab_li[j].getAttribute('name')==='漂浮'){
+                                                                effect_tab_li_p= effect_tab_li[j].querySelectorAll('p');
+                                                                modeAni.range = effect_tab_li[j].querySelector('input[type=range]');
+                                                                modeAni.progress = effect_tab_li[j].querySelector('progress');
+                                                            }
+                                                        };
+                                                        effect_tab_li_p[1].querySelector('select').value = modelData[i].start.body.text;
+                                                        effect_tab_li_p[2].querySelector('select').value = modelData[i].speed.body().text;
+                                                        effect_tab_li_p[3].querySelector('select').value = modelData[i].delay.body.text;
+                                                        effect_tab_li_p[4].querySelector('select').value = modelData[i].extent.body.text;
+                                                        effect_tab_li_p[5].querySelector('select').value = modelData[i].times.body.text;
+                                                        if (modelData[i].speed.body().text === '自定义'){
+                                                            modeAni.range.value = modelData[i].speed.body().value;
+                                                            modeAni.range.style.background = 'linear-gradient(to right, #059CFA, white ' + modeAni.range.value + '%, white)';
+                                                            modeAni.progress.setAttribute('value',modelData[i].speed.body().value+(modelData[i].delay.body.value*100));
+                                                        }else {
+                                                            modeAni.progress.setAttribute('value',modelData[i].speed.body().txt+(modelData[i].delay.body.value*100));
+                                                        }
                                                     }
                                                     if (id === 209){
                                                         that.setType(id,element);
+                                                        for (j = 0;j<effect_tab_li.length;j++){
+                                                            if(effect_tab_li[j].getAttribute('name')==='闪烁'){
+                                                                effect_tab_li_p= effect_tab_li[j].querySelectorAll('p');
+                                                                modeAni.range = effect_tab_li[j].querySelector('input[type=range]');
+                                                                modeAni.progress = effect_tab_li[j].querySelector('progress');
+                                                            }
+                                                        };
+                                                        effect_tab_li_p[1].querySelector('select').value = modelData[i].start.body.text;
+                                                        effect_tab_li_p[2].querySelector('select').value = modelData[i].speed.body().text;
+                                                        effect_tab_li_p[3].querySelector('select').value = modelData[i].delay.body.text;
+                                                        effect_tab_li_p[4].querySelector('select').value = modelData[i].times.body.text;
+                                                        if (modelData[i].speed.body().text === '自定义'){
+                                                            modeAni.range.value = modelData[i].speed.body().value;
+                                                            modeAni.range.style.background = 'linear-gradient(to right, #059CFA, white ' + modeAni.range.value + '%, white)';
+                                                            modeAni.progress.setAttribute('value',modelData[i].speed.body().value+(modelData[i].delay.body.value*100));
+                                                        }else {
+                                                            modeAni.progress.setAttribute('value',modelData[i].speed.body().txt+(modelData[i].delay.body.value*100));
+                                                        }
                                                     }
                                                     if (id === 212){
                                                         that.setType(id,element);
+                                                        for (j = 0;j<effect_tab_li.length;j++){
+                                                            if(effect_tab_li[j].getAttribute('name')==='帧动画'){
+                                                                effect_tab_li_p= effect_tab_li[j].querySelectorAll('p');
+                                                                modeAni.range = effect_tab_li[j].querySelector('input[type=range]');
+                                                                modeAni.progress = effect_tab_li[j].querySelector('progress');
+                                                                modeAni.animal = effect_tab_li[j].querySelector('.xk-frame-ul');
+                                                            }
+                                                        };
+
+                                                        if(modelData[i].list.body.length){
+                                                            for (j = 0;j<modelData[i].list.body.length;j++){
+                                                                var str=doc.createElement('li');
+                                                                str.classList.add('xk');
+                                                                str.setAttribute('xk-id',modelData[i].list.body[j].id);
+                                                                str.innerHTML = '<div class="xk-edit-right-top" style="border: 1px solid">\n' +
+                                                                    '<span data-id="421" class="xk-edit-right-label xk-edit-right-label-eyes"></span>\n' +
+                                                                    '<span data-id="422" class="xk-edit-right-label xk-edit-right-img"></span>\n' +
+                                                                    '<span data-id="423" class="xk-edit-right-label">'+modelData[i].list.body[j].name+'</span>\n' +
+                                                                    '<span data-id="424" class="xk-edit-right-label xk-edit-right-label-abled"></span>\n' +
+                                                                    '<span data-id="425" class="xk-edit-right-label xk-edit-right-label-dir"></span>\n' +
+                                                                    '</div>';
+                                                                modeAni.animal.appendChild(str);
+                                                            }
+                                                        };
+                                                        var frameLi = document.querySelectorAll('.xk');
+                                                        var frameDel = document.querySelector('.delframe');
+                                                        XkTool.addEvent(frameDel,'click',function (e) {
+                                                            for (var j = 0;j<frameLi.length;j++){
+                                                                if (XkTool.hasClass(frameLi[j],'box-bg-blue')) {
+                                                                    frameLi[j].parentNode.removeChild(frameLi[j]);
+                                                                }
+                                                            }
+                                                        });
+                                                        for (var t = 0;t<frameLi.length;t++){
+                                                            XkTool.addEvent(frameLi[t],'click',function (e) {
+                                                                var ev = this;
+                                                                var sibling = aniclick.siblings(ev);
+                                                                ev.classList.add('box-bg-blue');
+                                                                for (var t = 0;t<sibling.length;t++){
+                                                                    XkTool.removeClass(sibling[t],'box-bg-blue')
+                                                                }
+                                                            });
+                                                        }
+                                                        effect_tab_li_p[1].querySelector('select').value = modelData[i].start.body.text;
+                                                        effect_tab_li_p[2].querySelector('select').value = modelData[i].speed.body().text;
+                                                        effect_tab_li_p[3].querySelector('select').value = modelData[i].delay.body.text;
+                                                        effect_tab_li_p[4].querySelector('select').value = modelData[i].times.body.text;
+                                                        if (modelData[i].speed.body().text === '自定义'){
+                                                            modeAni.range.value = modelData[i].speed.body().value;
+                                                            modeAni.range.style.background = 'linear-gradient(to right, #059CFA, white ' + modeAni.range.value + '%, white)';
+                                                            modeAni.progress.setAttribute('value',modelData[i].speed.body().value+(modelData[i].delay.body.value*100));
+                                                        }else {
+                                                            modeAni.progress.setAttribute('value',modelData[i].speed.body().txt+(modelData[i].delay.body.value*100));
+                                                        }
                                                     }
                                                 }
-                                                console.log(modelData);
                                             }
                                         }
 
@@ -2293,6 +2509,7 @@ require(['config'], function () {
                 },
                 setType: function (id, ele) {
                     var that = this;
+                    clearTimeout(that.timer);
                     var pageIndex,page_layer_index;
                     pageIndex = that.getPageIndex()[0];
                     page_layer_index = that.getPageIndex()[1];
@@ -2553,7 +2770,7 @@ require(['config'], function () {
                                                     Ul.appendChild(Li);
                                                     document.body.removeChild(document.getElementById('alertWindow'));
                                                     document.body.removeChild(document.getElementById('opac'));
-                                                    var frameLi = document.querySelectorAll('.xk');
+                                                    var frameLi = document.getElementsByClassName('xk');
                                                     var frameDel = document.querySelector('.delframe');
                                                     XkTool.addEvent(frameDel,'click',function (e) {
                                                         for (var j = 0;j<frameLi.length;j++){
@@ -3168,9 +3385,9 @@ require(['config'], function () {
                             break;
 
                     };
-                    setInterval(function () {
+                    that.timer = setTimeout(function () {
                         that.keepAnimation(id,_Model.page[pageIndex].layerList[page_layer_index].animal)
-                    },10000)
+                    },10000);
                 },
                 //进度条的拖动事件
                 setProg: function (id, ele) {
@@ -3265,9 +3482,9 @@ require(['config'], function () {
                                     title: '速度',
                                     body:function () {
                                         if (effect.speedBody === '自定义'){
-                                            return effect.range.value;
+                                            return {text:'自定义',value:Number(effect.range.value)};
                                         }else {
-                                            fade(effect.speedBody,_Model.speedBody)
+                                            return fade(effect.speedBody,_Model.speedBody)
                                         }
                                     },
                                     type: 'select'
@@ -3322,9 +3539,9 @@ require(['config'], function () {
                                     title: '速度',
                                     body:function () {
                                         if (effect.speedBody === '自定义'){
-                                            return effect.range.value;
+                                            return {text:'自定义',value:Number(effect.range.value)};
                                         }else {
-                                            fade(effect.speedBody,_Model.speedBody)
+                                            return fade(effect.speedBody,_Model.speedBody)
                                         }
                                     },
                                     type: 'select'
@@ -3343,7 +3560,7 @@ require(['config'], function () {
                                     title: '旋转',
                                     body: {
                                         start: 0,
-                                        end: effect.rotate[0].value.replace(/(^\s*)|(\s*$)/g, '')!==''?effect.rotate[0].value:effect.rotate[1].value,
+                                        end: effect.rotate[0].value.replace(/(^\s*)|(\s*$)/g, '')!==''?effect.rotate[0].value:-effect.rotate[1].value,
                                         min: -360,
                                         max: 360,
                                         value:effect.rate,
@@ -3384,9 +3601,9 @@ require(['config'], function () {
                                     title: '速度',
                                     body:function () {
                                         if (effect.speedBody === '自定义'){
-                                            return effect.range.value;
+                                            return {text:'自定义',value:Number(effect.range.value)};
                                         }else {
-                                            fade(effect.speedBody,_Model.speedBody)
+                                            return fade(effect.speedBody,_Model.speedBody)
                                         }
                                     },
                                     type: 'select'
@@ -3437,9 +3654,9 @@ require(['config'], function () {
                                     title: '速度',
                                     body:function () {
                                         if (effect.speedBody === '自定义'){
-                                            return effect.range.value;
+                                            return {text:'自定义',value:Number(effect.range.value)};
                                         }else {
-                                            fade(effect.speedBody,_Model.speedBody)
+                                            return fade(effect.speedBody,_Model.speedBody)
                                         }
                                     },
                                     type: 'select'
@@ -3489,9 +3706,9 @@ require(['config'], function () {
                                     title: '速度',
                                     body:function () {
                                         if (effect.speedBody === '自定义'){
-                                            return effect.range.value;
+                                            return {text:'自定义',value:Number(effect.range.value)};
                                         }else {
-                                            fade(effect.speedBody,_Model.speedBody)
+                                            return fade(effect.speedBody,_Model.speedBody)
                                         }
                                     },
                                     type: 'select'
@@ -3541,9 +3758,9 @@ require(['config'], function () {
                                     title: '速度',
                                     body:function () {
                                         if (effect.speedBody === '自定义'){
-                                            return effect.range.value;
+                                            return {text:'自定义',value:Number(effect.range.value)};
                                         }else {
-                                            fade(effect.speedBody,_Model.speedBody)
+                                            return fade(effect.speedBody,_Model.speedBody)
                                         }
                                     },
                                     type: 'select'
@@ -3597,9 +3814,9 @@ require(['config'], function () {
                                     title: '速度',
                                     body:function () {
                                         if (effect.speedBody === '自定义'){
-                                            return effect.range.value;
+                                            return {text:'自定义',value:Number(effect.range.value)};
                                         }else {
-                                            fade(effect.speedBody,_Model.speedBody)
+                                            return fade(effect.speedBody,_Model.speedBody)
                                         }
                                     },
                                     type: 'select'
@@ -3659,9 +3876,9 @@ require(['config'], function () {
                                     title: '速度',
                                     body:function () {
                                         if (effect.speedBody === '自定义'){
-                                            return effect.range.value;
+                                            return {text:'自定义',value:Number(effect.range.value)};
                                         }else {
-                                            fade(effect.speedBody,_Model.speedBody)
+                                            return fade(effect.speedBody,_Model.speedBody)
                                         }
                                     },
                                     type: 'select'
@@ -3714,9 +3931,9 @@ require(['config'], function () {
                                     title: '速度',
                                     body:function () {
                                         if (effect.speedBody === '自定义'){
-                                            return effect.range.value;
+                                            return {text:'自定义',value:Number(effect.range.value)};
                                         }else {
-                                            fade(effect.speedBody,_Model.speedBody)
+                                            return fade(effect.speedBody,_Model.speedBody)
                                         }
                                     },
                                     type: 'select'
@@ -3769,9 +3986,9 @@ require(['config'], function () {
                                     title: '速度',
                                     body:function () {
                                         if (effect.speedBody === '自定义'){
-                                            return effect.range.value;
+                                            return {text:'自定义',value:Number(effect.range.value)};
                                         }else {
-                                            fade(effect.speedBody,_Model.speedBody)
+                                            return fade(effect.speedBody,_Model.speedBody)
                                         }
                                     },
                                     type: 'select'
@@ -3982,7 +4199,9 @@ require(['config'], function () {
                                 },
                                 speed: {
                                     title: '速度',
-                                    body:{text:'普通',value:1},
+                                    body:function () {
+                                        return {text:'普通',value:1}
+                                    },
                                     type: 'select'
                                 },
                                 delay: {
@@ -4003,7 +4222,7 @@ require(['config'], function () {
                         {
                             subId: 0,
                             layer: 1,
-                            src: 'images/warning.jpg',
+                            src: 'images/1.jpg',
                             name: 1,
                             rect: {
                                 bottom: 656,
